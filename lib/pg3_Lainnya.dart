@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class Pg3_Lainnya extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -7,6 +8,12 @@ class Pg3_Lainnya extends StatelessWidget {
 
       home: Scaffold(
         appBar: AppBar(
+          leading: RaisedButton(
+            color: Colors.blue,
+            onPressed: () {Navigator.pop(context);},
+            child: Icon(
+                Icons.more),
+          textColor: Colors.white,),
           title: Text("Lainnya ..."),
         ),
         backgroundColor: Colors.indigo,
@@ -34,8 +41,10 @@ class Pg3_Lainnya extends StatelessWidget {
               Container(
                 width: 300,
                 child: RaisedButton(
-                  onPressed: () {},
-                    child: Text("Hubungi kami")
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/pg11_hubungikami');
+                  },
+                    child: Text("Hubungi kami"),
                 ),
               ),
               Container(
