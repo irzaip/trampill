@@ -1,16 +1,25 @@
-# trampill
+# TRAMPILL
 
-Mooc On SmartPhone
+Simple Mooc On SmartPhone with Flutter.
 
-## Getting Started
+## TUJUAN
+Tujuannya membuat platform edukasi alternatif, yang open source dan dapat dimanfaatkan oleh siapa saja yang membutuhkan.
+Dengan sumber daya yang rendah kita dapat mengakses bermacam-macam konten edukasi.
 
-This project is a starting point for a Flutter application.
+## ROADMAP
+step 1.
+Most Viable Product.
 
-A few resources to get you started if this is your first Flutter project:
+MVP - tahap 1 sebagai percobaan bisa mengambil dari repositori master course, lalu parsing 
+materi di aplikasi
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Project ini di kembangkan oleh:
+
+- Irza Pulungan.
+- Riska Abdullah.
+- Mhd. Asman.
+- Eris Riso.
+
+Kami sangat menunggu bantuan dari ahli di bidang flutter untuk merealisasikan project ini.
+
