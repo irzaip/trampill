@@ -7,12 +7,12 @@ class Pg15_Materi extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.indigo,
         title: Text("Materi"),),
       body: AnimatedSwitcher(
         duration: const Duration(seconds: 2),
         child: Text("Hello Friend"),
       ),
-
       bottomNavigationBar: BottomAppBar(
         child: Container(child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -34,6 +34,8 @@ class Pg15_Materi extends StatelessWidget {
           ],
         )),
       ),
+
+
     );
   }
 }

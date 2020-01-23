@@ -23,3 +23,17 @@ materi di aplikasi
 
 Kami sangat menunggu bantuan dari ahli di bidang flutter untuk merealisasikan project ini.
 
+
+## RESOURCE
+
+  repositori master mooc.
+  - (http://github.com/irzaip/TrampillMasterMooc)
+
+  sample master mooc diakses dengan url:
+  - (https://raw.githubusercontent.com/irzaip/TrampillMasterMooc/master/Master.md)
+
+  repositori sample course.
+  - (https://github.com/irzaip/SampleCourse)
+
+  sample course diakses dengan url
+  - (https://raw.githubusercontent.com/irzaip/SampleCourse/master/MachineLearning.md)
