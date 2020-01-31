@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:trampill/pg11_hubungikami.dart';
-import 'pg3_Lainnya.dart';
-import 'package:trampill/pg3_Lainnya.dart';
-import 'pg21_main_course.dart';
-import 'pg10_tentang.dart';
-import 'pg15_materi.dart';
-import 'pg11_hubungikami.dart';
+import 'package:trampill/screen/pg11_hubungikami.dart';
+import 'screen/pg3_Lainnya.dart';
+import 'package:trampill/screen/pg3_Lainnya.dart';
+import 'screen/pg21_main_course.dart';
+import 'screen/pg10_tentang.dart';
+import 'screen/pg15_materi.dart';
+import 'screen/pg11_hubungikami.dart';
 
 void main() => runApp(MyApp());
 
