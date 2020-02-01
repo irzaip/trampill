@@ -85,16 +85,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         backgroundColor: Colors.indigo,
         title: const Text('Trampill'),
       ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            MyCard(),
-            Center(
-              child: _widgetOptions.elementAt(_selectedIndex),
-            ),
-          ],
-        ),
-      ),
+      body: MyCard(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -125,53 +116,87 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 }
 
-// This is the stateless widget that the main application instantiates.
-class MyCard extends StatelessWidget {
-  MyCard({Key key}) : super(key: key);
+class MyCard extends StatefulWidget {
+  @override
+  _MyCardState createState() => _MyCardState();
+}
+
+class _MyCardState extends State<MyCard> {
+  Map sampleCourse = {
+    '1': [
+            "KECERDASAN BUATAN - Informal",
+            "oleh Irza Pulungan",
+            "Belajar kecerdasan buatan dan hal-hal yang berkaitan dengan Machine learning, Jaringan Syaraf Tiruan dan Deep Learning",
+            "Teknologi, Programming"
+            "Gratis",
+            4.8
+         ],
+
+    '2': [
+            "Programming dengan Flutter",
+            "oleh ABC",
+            "Belajar menggunakan aplikasi Flutter",
+            "Teknologi, Programming",
+            "Gratis",
+            4.5,
+         ],
+  };
+
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        borderOnForeground: true,
-        color: Colors.white,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
-              leading: Icon(Icons.blur_on, color: Colors.blueAccent,size: 40,),
-              title: Text(
-                'KECERDASAN BUATAN - Informal',
-                style: TextStyle(color: Colors.black, fontSize: 20),
-              ),
-              subtitle: Text('oleh Irza Pulungan',
-                  style: TextStyle(
-                    color: Colors.grey ,
-                    fontSize: 14,
-                  )),
+    return Container(
+      color: Colors.grey,
+      child: new ListView.builder(
+          itemCount: 7,
+          itemBuilder: (BuildContext context, int index) => buildCourse(context, index)
+      )
+    );
+  }
 
-            ),
-            ButtonBar(
+
+  Widget buildCourse(BuildContext context, int index) {
+    TextStyle bigfont = TextStyle(fontSize: 25, color: Colors.black);
+    TextStyle mediumfont = TextStyle(fontSize: 20, color: Colors.black);
+    TextStyle kategorifont = TextStyle(fontSize: 20, color: Colors.black);
+    TextStyle hargafont = TextStyle(fontSize: 20, color: Colors.black);
+    return new Container(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GestureDetector(
+          onTap: () {Navigator.pushNamed(context, "/pg15_materi");},
+          child: Card(
+            elevation: 10,
+            color: Colors.white,
+            child: Row(
               children: <Widget>[
-                RaisedButton(
-                  color: Colors.blue,
-                  child: const Text('DETIL',
-                  style: TextStyle(color: Colors.white),),
-                  onPressed: () {/* ... */},
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.ac_unit, color: Colors.black, size: 50,),
                 ),
-                RaisedButton(
-                  color: Colors.deepOrangeAccent,
-                  child: const Text('MASUK',
-                  style: TextStyle(color: Colors.white),),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/pg15_materi');
-                  },
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      children: <Widget>[
+                        Text("Kecerdasan buatan - Informal", style: bigfont, textAlign: TextAlign.start,),
+                        Text("oleh Irza Pulungan", style: mediumfont, textAlign: TextAlign.left,),
+                        Text("teknologi, programming", style: kategorifont,),
+                        Text("Gratis",style: hargafont,),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.accessibility, color: Colors.black, size: 60),
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
+    
   }
 }
