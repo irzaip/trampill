@@ -1,8 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
-import 'package:quiver/strings.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:trampill/services/keys.dart';
 
