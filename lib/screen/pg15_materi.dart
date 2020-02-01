@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:quiver/strings.dart';
@@ -10,6 +12,9 @@ class Pg15_Materi extends StatefulWidget {
 }
 
 class _Pg15_MateriState extends State<Pg15_Materi> {
+  int bottomSelectedIndex = 0;
+  int maxPage = 0;
+
   Map sampleContent = {
     '1': [
       "Content 1 book",
@@ -33,7 +38,7 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
   buildContent(Map content, int index) {
     List<Widget> content = new List<Widget>();
     String cntdx = sampleContent.keys.toList()[index].toString();
-
+    maxPage = sampleContent[cntdx].length;
     for (var i = 0; i < sampleContent[cntdx].length; i++) {
       String isi = sampleContent[cntdx][i].toString();
       if (isi.contains("youtube")) {
@@ -120,7 +125,7 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
                 ),
               ),
               RaisedButton(
-                onPressed: null,
+                onPressed: (){bottomTapped(3);},
                 child: Text(
                   "Week 2",
                   style: TextStyle(
@@ -135,6 +140,41 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
     );
   }
 
+  PageController pageController = PageController(
+    initialPage: 0,
+    keepPage: true,
+  );
+
+  Widget buildPageView() {
+    return PageView(
+      controller: pageController,
+      onPageChanged: (index) {
+        pageChanged(index);
+      },
+      children: buildContent(sampleContent, 0),
+
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void pageChanged(int index) {
+    setState(() {
+      bottomSelectedIndex = index;
+    });
+  }
+
+  void bottomTapped(int index) {
+    setState(() {
+      bottomSelectedIndex = index;
+      pageController.animateToPage(index,
+          duration: Duration(milliseconds: 500), curve: Curves.ease);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,10 +183,7 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
         title: Text("Materi"),
       ),
       body: Container(
-        child: PageView(
-          scrollDirection: Axis.horizontal,
-          children: buildContent(sampleContent, 0),
-        ),
+        child: buildPageView(),
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
@@ -155,7 +192,8 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
               children: <Widget>[
                 RaisedButton(
                   child: Icon(Icons.arrow_left),
-                  onPressed: () {},
+                  onPressed: () {
+                    prevPage();},
                 ),
                 RaisedButton(
                   child: Icon(Icons.assignment),
@@ -163,12 +201,25 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
                 ),
                 RaisedButton(
                   child: Icon(Icons.arrow_right),
-                  onPressed: () {},
+                  onPressed: () {
+                    nextPage();},
                 ),
               ],
             )),
       ),
     );
+  }
+
+  void prevPage() {
+    if (bottomSelectedIndex>0){ ;
+    bottomSelectedIndex=bottomSelectedIndex-1;
+    bottomTapped(bottomSelectedIndex);}
+  }
+
+  void nextPage() {
+    if (bottomSelectedIndex<maxPage){ ;
+    bottomSelectedIndex=bottomSelectedIndex+1;
+    bottomTapped(bottomSelectedIndex);}
   }
 }
 
