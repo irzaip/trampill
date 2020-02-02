@@ -10,3 +10,11 @@ class masterMooc {
   masterMooc(this.title, this.oleh, this.kategori, this.deskripsi, this.harga, this.rating, this.url);
 
 }
+
+class CourseContent {
+  final String title;
+  final List<String> coursecontent;
+
+  CourseContent(this.title, this.coursecontent);
+
+}

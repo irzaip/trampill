@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trampill/screen/pg11_hubungikami.dart';
+import 'package:trampill/screen/pg7_kelassaya.dart';
 import 'package:trampill/services/Course.dart';
 import 'screen/pg3_Lainnya.dart';
 import 'package:trampill/screen/pg3_Lainnya.dart';
@@ -13,6 +14,8 @@ void main() => runApp(MyApp());
 /// This Widget is the main application widget.
 class MyApp extends StatelessWidget {
   static const String _title = 'Flutter Code Sample';
+  final String mm = "test";
+  final List<String> mmm = [];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,9 @@ class MyApp extends StatelessWidget {
         '/pg10_tentang': (context) => Pg10_Tentang(),
         '/pg11_hubungikami': (context) => Pg11_HubungiKami(),
         '/pg15_materi': (context) => Pg15_Materi(),
-        '/pg21_main_course': (context) => InputPage()
+        '/pg21_main_course': (context) => InputPage(),
+        '/pg7_kelassaya': (context) => Pg7_KelasSaya(mm),
+
       },
     );
   }
@@ -68,6 +73,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+
+      if (_selectedIndex == 1) {
+        Navigator.pushNamed(context, "/pg7_kelassaya");
+      }
       if (_selectedIndex == 3) {
         Navigator.pushNamed(context, '/pg3_lainnya');
       }
@@ -167,6 +176,7 @@ class _MyCardState extends State<MyCard> {
 
 
   Widget buildCourse(BuildContext context, int index) {
+
     final course = courseList[index];
     TextStyle bigfont = TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold, );
     TextStyle mediumfont = TextStyle(fontSize: 18, color: Colors.black);
@@ -177,7 +187,8 @@ class _MyCardState extends State<MyCard> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GestureDetector(
-          onTap: () {Navigator.pushNamed(context, "/pg15_materi");},
+          onTap: () {
+            Navigator.pushNamed(context, "/pg15_materi");},
           child: Card(
             elevation: 10,
             color: Colors.white,
