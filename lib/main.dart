@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trampill/screen/pg11_hubungikami.dart';
+import 'package:trampill/services/Course.dart';
 import 'screen/pg3_Lainnya.dart';
 import 'package:trampill/screen/pg3_Lainnya.dart';
 import 'screen/pg21_main_course.dart';
@@ -122,33 +123,39 @@ class MyCard extends StatefulWidget {
 }
 
 class _MyCardState extends State<MyCard> {
-  Map sampleCourse = {
-    '1': [
-            "KECERDASAN BUATAN - Informal",
+  final List<Course> courseList = [
+    Course("KECERDASAN BUATAN - Informal",
             "oleh Irza Pulungan",
             "Belajar kecerdasan buatan dan hal-hal yang berkaitan dengan Machine learning, Jaringan Syaraf Tiruan dan Deep Learning",
-            "Teknologi, Programming"
+            "Teknologi, Programming",
             "Gratis",
-            4.8
-         ],
-
-    '2': [
-            "Programming dengan Flutter",
+            "4.8",
+            "",
+    ),    Course("Belajar membuat Website menggunakan Lavarel",
+      "oleh lavindo",
+      "Buat Website yang sangat kustom dengan kebutuhan kamu semua.",
+      "Teknologi, Programming",
+      "Gratis",
+      "4.3",
+      "",
+    ),
+    Course("Programming dengan Flutter",
             "oleh ABC",
             "Belajar menggunakan aplikasi Flutter",
             "Teknologi, Programming",
             "Gratis",
-            4.5,
-         ],
-  };
+            "4.5",
+      "",
+    ),
 
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.grey,
       child: new ListView.builder(
-          itemCount: 7,
+          itemCount: courseList.length,
           itemBuilder: (BuildContext context, int index) => buildCourse(context, index)
       )
     );
@@ -156,10 +163,12 @@ class _MyCardState extends State<MyCard> {
 
 
   Widget buildCourse(BuildContext context, int index) {
-    TextStyle bigfont = TextStyle(fontSize: 25, color: Colors.black);
-    TextStyle mediumfont = TextStyle(fontSize: 20, color: Colors.black);
-    TextStyle kategorifont = TextStyle(fontSize: 20, color: Colors.black);
-    TextStyle hargafont = TextStyle(fontSize: 20, color: Colors.black);
+    final course = courseList[index];
+    TextStyle bigfont = TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold, );
+    TextStyle mediumfont = TextStyle(fontSize: 18, color: Colors.black);
+    TextStyle deskripsifont = TextStyle(fontSize: 16, color: Colors.black);
+    TextStyle kategorifont = TextStyle(fontSize: 14, color: Colors.blueGrey);
+    TextStyle hargafont = TextStyle(fontSize: 20, color: Colors.redAccent, fontWeight: FontWeight.w700);
     return new Container(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -168,6 +177,8 @@ class _MyCardState extends State<MyCard> {
           child: Card(
             elevation: 10,
             color: Colors.white,
+            shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(20))
+            ),
             child: Row(
               children: <Widget>[
                 Padding(
@@ -179,18 +190,39 @@ class _MyCardState extends State<MyCard> {
                     padding: const EdgeInsets.all(12.0),
                     child: Column(
                       children: <Widget>[
-                        Text("Kecerdasan buatan - Informal", style: bigfont, textAlign: TextAlign.start,),
-                        Text("oleh Irza Pulungan", style: mediumfont, textAlign: TextAlign.left,),
-                        Text("teknologi, programming", style: kategorifont,),
-                        Text("Gratis",style: hargafont,),
+                        Row(
+                          children: <Widget>[
+                            Flexible(child: Text(course.title, style: bigfont,)),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Text(course.oleh, style: mediumfont,),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Text(course.kategori, style: kategorifont,),
+                          ],
+                        ),
+                        Row(children: <Widget>[
+                          Flexible(child: Text(course.deskripsi, style: deskripsifont,)),
+                        ],),
+                        Row(children: <Widget>[SizedBox(height: 20,)],),
+                        Row(
+                          children: <Widget>[
+                            Text(course.harga,style: hargafont,),
+                            Spacer(),
+                            RaisedButton(onPressed: () {Navigator.pushNamed(context, "/pg15_materi");},
+                            child: Text("Buka"),
+                            )
+                          ],
+                        ),
                       ],
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.accessibility, color: Colors.black, size: 60),
-                ),
+
               ],
             ),
           ),

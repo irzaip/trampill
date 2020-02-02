@@ -4,8 +4,9 @@ class Course {
   final String deskripsi;
   final String kategori;
   final String harga;
-  final bool rating;
+  final String rating;
+  final String url;
 
-  Course(this.title, this.oleh, this.deskripsi, this.kategori, this.harga, this.rating);
+  Course(this.title, this.oleh, this.deskripsi, this.kategori, this.harga, this.rating, this.url);
 
 }
