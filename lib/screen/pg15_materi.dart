@@ -207,13 +207,13 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
   }
 
   void prevPage() {
-    if (bottomSelectedIndex>0){ ;
+    if (bottomSelectedIndex>0){
     bottomSelectedIndex=bottomSelectedIndex-1;
     bottomTapped(bottomSelectedIndex);}
   }
 
   void nextPage() {
-    if (bottomSelectedIndex<maxPage){ ;
+    if (bottomSelectedIndex<maxPage){
     bottomSelectedIndex=bottomSelectedIndex+1;
     bottomTapped(bottomSelectedIndex);}
   }

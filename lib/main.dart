@@ -82,6 +82,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           RaisedButton(
             child: Icon(Icons.search),
           ),
+          RaisedButton(
+            child: Icon(Icons.settings),
+          )
         ],
         backgroundColor: Colors.indigo,
         title: const Text('Trampill'),
@@ -123,29 +126,30 @@ class MyCard extends StatefulWidget {
 }
 
 class _MyCardState extends State<MyCard> {
-  final List<Course> courseList = [
-    Course("KECERDASAN BUATAN - Informal",
+  final List<masterMooc> courseList = [
+    masterMooc("KECERDASAN BUATAN - Informal",
             "oleh Irza Pulungan",
-            "Belajar kecerdasan buatan dan hal-hal yang berkaitan dengan Machine learning, Jaringan Syaraf Tiruan dan Deep Learning",
             "Teknologi, Programming",
+            "Belajar kecerdasan buatan dan hal-hal yang berkaitan dengan Machine learning, Jaringan Syaraf Tiruan dan Deep Learning",
             "Gratis",
             "4.8",
             "",
-    ),    Course("Belajar membuat Website menggunakan Lavarel",
+    ),
+    masterMooc("Belajar membuat Website menggunakan Lavarel",
       "oleh lavindo",
-      "Buat Website yang sangat kustom dengan kebutuhan kamu semua.",
       "Teknologi, Programming",
+      "Buat Website yang sangat kustom dengan kebutuhan kamu semua.",
       "Gratis",
       "4.3",
       "",
     ),
-    Course("Programming dengan Flutter",
+    masterMooc("Programming dengan Flutter",
             "oleh ABC",
-            "Belajar menggunakan aplikasi Flutter",
             "Teknologi, Programming",
+            "Belajar menggunakan aplikasi Flutter",
             "Gratis",
             "4.5",
-      "",
+            "",
     ),
 
   ];
