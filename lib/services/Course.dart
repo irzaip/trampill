@@ -1,11 +1,20 @@
-class Course {
+class masterMooc {
   final String title;
   final String oleh;
-  final String deskripsi;
   final String kategori;
+  final String deskripsi;
   final String harga;
-  final bool rating;
+  final String rating;
+  final String url;
 
-  Course(this.title, this.oleh, this.deskripsi, this.kategori, this.harga, this.rating);
+  masterMooc(this.title, this.oleh, this.kategori, this.deskripsi, this.harga, this.rating, this.url);
+
+}
+
+class CourseContent {
+  final String title;
+  final List<String> coursecontent;
+
+  CourseContent(this.title, this.coursecontent);
 
 }

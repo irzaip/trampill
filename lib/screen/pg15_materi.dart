@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:trampill/services/keys.dart';
+import 'package:trampill/services/request.dart';
+import 'package:trampill/services/Course.dart';
 
 class Pg15_Materi extends StatefulWidget {
   @override
@@ -11,13 +13,14 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
   int bottomSelectedIndex = 0;
   int maxPage = 0;
 
+
   Map sampleContent = {
     '1': [
       "Content 1 book",
       "Content 2\n\nKonten ini sangat panjang semoga anda terhibur dengan tulisan ini, dan kamipun menjadi senang.",
-      "(https://www.youtube.com/watch?v=tc_8yy39RxE)",
-      "(https://www.youtube.com/watch?v=bg6vYLs5DKg)",
-      "(https://www.youtube.com/watch?v=ndFiHFGW8oQ)",
+      '(https://www.youtube.com/watch?v=tc_8yy39RxE "Ini adalah keterangan")',
+      '(https://www.youtube.com/watch?v=bg6vYLs5DKg "Ini vidieo ke-dua")',
+      '(https://www.youtube.com/watch?v=ndFiHFGW8oQ "Ini dia video ke tiga")',
       "Content 4"
     ],
     '2': ["Content 2-1", "Content 2-2", "Content 2-3"],
@@ -35,14 +38,20 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
     List<Widget> content = new List<Widget>();
     String cntdx = sampleContent.keys.toList()[index].toString();
     maxPage = sampleContent[cntdx].length;
+
     for (var i = 0; i < sampleContent[cntdx].length; i++) {
       String isi = sampleContent[cntdx][i].toString();
       if (isi.contains("youtube")) {
+        //manipulasi url dalam kurung
         isi = isi.replaceAll("(", "").replaceAll(")", "");
+        isi = isi.replaceFirst(" ","#");
+        var isilkp = isi.split("#");
+        var ket = isilkp[1].replaceAll("\"", "");
+        isi = isilkp[0];
         Uri yturl = Uri.parse(isi);
+
         String videoID = yturl.queryParameters['v'].toString();
         String ytimgURL = "http://img.youtube.com/vi/" + videoID +"/0.jpg";
-
 
         content.add(
           Padding(
@@ -58,7 +67,7 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
                       child: Image.network(ytimgURL),
                     ),
                     Text(
-                      "YOUTUBE VIDEO",
+                      ket,
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.black,
@@ -207,13 +216,13 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
   }
 
   void prevPage() {
-    if (bottomSelectedIndex>0){ ;
+    if (bottomSelectedIndex>0){
     bottomSelectedIndex=bottomSelectedIndex-1;
     bottomTapped(bottomSelectedIndex);}
   }
 
   void nextPage() {
-    if (bottomSelectedIndex<maxPage){ ;
+    if (bottomSelectedIndex<maxPage){
     bottomSelectedIndex=bottomSelectedIndex+1;
     bottomTapped(bottomSelectedIndex);}
   }
