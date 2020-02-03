@@ -39,8 +39,8 @@ class _Pg7_KelasSayaState extends State<Pg7_KelasSaya> {
             ),
             RaisedButton(
               onPressed: () {
-                var mycrs = Course();
-                var result = mycrs.readurl("https://raw.githubusercontent.com/irzaip/SampleCourse/master/KecerdasanBuatan.md");
+                var mycrs = MoocMaster();
+                var result = mycrs.readurl("https://raw.githubusercontent.com/irzaip/TrampillMasterMooc/master/Master.mm");
                 },
               child: Text("DEBUG"),
             ),
