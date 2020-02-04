@@ -208,21 +208,21 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
 
   Widget buildPageView() {
     return FutureBuilder(
-        future: loadDone,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return PageView(
-              controller: pageController,
-              onPageChanged: (index) {
-                pageChanged(index);
-              },
-              children: buildContent(sampleContent, 0),
-            );
-          } else if (snapshot.hasError) {
-            return Container(child: Text("${snapshot.error}"));
-          }
-          return Container(child: Center(child: CircularProgressIndicator()));
-        },
+      future: loadDone,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return PageView(
+            controller: pageController,
+            onPageChanged: (index) {
+              pageChanged(index);
+            },
+            children: buildContent(sampleContent, 0),
+          );
+        } else if (snapshot.hasError) {
+          return Container(child: Text("${snapshot.error}"));
+        }
+        return Container(child: Center(child: CircularProgressIndicator()));
+      },
     );
   }
 
@@ -259,6 +259,8 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
               child: Icon(Icons.arrow_left),
               onPressed: () {
                 prevPage();
+                print("Pressed Left");
+                print(bottomSelectedIndex);
               },
             ),
             RaisedButton(
@@ -271,6 +273,9 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
               child: Icon(Icons.arrow_right),
               onPressed: () {
                 nextPage();
+                print("Pressed Right");
+                print(maxPage);
+                print(bottomSelectedIndex);
               },
             ),
           ],
