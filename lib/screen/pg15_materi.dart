@@ -86,7 +86,7 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
     });
 
     var currentIndexContent = 0;
-    var maxPage = sampleContent[currentIndexContent].coursecontent.length;
+    maxPage = sampleContent[currentIndexContent].coursecontent.length;
 
     for (var i = 0; i < maxPage; i++) {
       String isi =
