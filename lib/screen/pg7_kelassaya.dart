@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trampill/services/request.dart';
-import 'package:trampill/services/Course.dart';
+
 
 class Pg7_KelasSaya extends StatefulWidget {
   final String contentUrl;
@@ -14,6 +14,7 @@ class _Pg7_KelasSayaState extends State<Pg7_KelasSaya> {
   String contentUrl = "";
 
   _Pg7_KelasSayaState(String ttl);
+
 @override
   void initState() {
     contentUrl = widget.contentUrl;
