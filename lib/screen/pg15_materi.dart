@@ -1,31 +1,42 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:trampill/services/keys.dart';
-import 'package:trampill/services/request.dart';
 import 'package:trampill/services/Course.dart';
+import 'package:http/http.dart' as http;
 
 class Pg15_Materi extends StatefulWidget {
+  final String courseUrl;
+  Pg15_Materi(this.courseUrl);
+
   @override
-  _Pg15_MateriState createState() => _Pg15_MateriState();
+  _Pg15_MateriState createState() => _Pg15_MateriState(this.courseUrl);
 }
 
 class _Pg15_MateriState extends State<Pg15_Materi> {
+  //bool _isInitialized = false;
+  String courseUrl = "";
+  Future<int> loadDone;
+
+  _Pg15_MateriState(String ttl);
+
   int bottomSelectedIndex = 0;
   int maxPage = 0;
+  String defaultCourseUrl =
+      "https://raw.githubusercontent.com/irzaip/SampleCourse/master/KecerdasanBuatan.md";
+  List<CourseContent> sampleContent = new List<CourseContent>();
 
+  @override
+  void initState() {
+    courseUrl = widget.courseUrl;
+    print(courseUrl);
 
-  Map sampleContent = {
-    '1': [
-      "Content 1 book",
-      "Content 2\n\nKonten ini sangat panjang semoga anda terhibur dengan tulisan ini, dan kamipun menjadi senang.",
-      '(https://www.youtube.com/watch?v=tc_8yy39RxE "Ini adalah keterangan")',
-      '(https://www.youtube.com/watch?v=bg6vYLs5DKg "Ini vidieo ke-dua")',
-      '(https://www.youtube.com/watch?v=ndFiHFGW8oQ "Ini dia video ke tiga")',
-      "Content 4"
-    ],
-    '2': ["Content 2-1", "Content 2-2", "Content 2-3"],
-    '3': ["Content 3-1", "Content 3-2"]
-  };
+    if (courseUrl == "") {
+      courseUrl = defaultCourseUrl;
+    }
+    loadDone = readUrl(courseUrl);
+    super.initState();
+  }
 
   void playYoutubeVideo(youtubeURL) {
     FlutterYoutube.playYoutubeVideoByUrl(
@@ -34,24 +45,63 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
     );
   }
 
-  buildContent(Map content, int index) {
-    List<Widget> content = new List<Widget>();
-    String cntdx = sampleContent.keys.toList()[index].toString();
-    maxPage = sampleContent[cntdx].length;
+  Future<int> readUrl(String url) async {
+    var response = await http.get(url);
+    print('Response status: ${response.statusCode}');
+    var content = response.body;
 
-    for (var i = 0; i < sampleContent[cntdx].length; i++) {
-      String isi = sampleContent[cntdx][i].toString();
+    RegExp regx =
+        new RegExp(r'(######+)(.*)', multiLine: true); // get the headers
+    RegExp regurl = new RegExp(r'\((http.*)\)', multiLine: true); // get urls
+
+    var matched = regx.allMatches(content);
+    print(matched.length);
+
+    for (int i = 0; i < matched.length; i++) {
+      try {
+        var cutBegin = content.indexOf(matched.elementAt(i).group(0));
+        var cutEnd = content.indexOf(matched.elementAt(i + 1).group(0));
+        var cutResult = content.substring(cutBegin, cutEnd);
+
+        LineSplitter ls = new LineSplitter();
+        List<String> coursecontent = ls.convert(cutResult);
+
+        sampleContent.add(new CourseContent(
+            matched.elementAt(i).group(0).toString(), coursecontent));
+      } catch (e) {
+        print("error parsing - content, maybe it's the end");
+      }
+    }
+    setState(() {});
+    return 1;
+  }
+
+  buildContent(List<CourseContent> coursecontent, int index) {
+    List<Widget> content = new List<Widget>();
+    List<String> tablecontent = new List<String>();
+
+    sampleContent.forEach((element) {
+      tablecontent.add(element.title);
+      print(element.title);
+    });
+
+    var currentIndexContent = 0;
+    var maxPage = sampleContent[currentIndexContent].coursecontent.length;
+
+    for (var i = 0; i < maxPage; i++) {
+      String isi =
+          sampleContent[currentIndexContent].coursecontent[i].toString();
       if (isi.contains("youtube")) {
         //manipulasi url dalam kurung
         isi = isi.replaceAll("(", "").replaceAll(")", "");
-        isi = isi.replaceFirst(" ","#");
-        var isilkp = isi.split("#");
-        var ket = isilkp[1].replaceAll("\"", "");
-        isi = isilkp[0];
-        Uri yturl = Uri.parse(isi);
+        isi = isi.replaceFirst(" ", "#");
+        var isiLengkap = isi.split("#");
+        var ket = isiLengkap[1].replaceAll("\"", "");
+        isi = isiLengkap[0];
 
-        String videoID = yturl.queryParameters['v'].toString();
-        String ytimgURL = "http://img.youtube.com/vi/" + videoID +"/0.jpg";
+        Uri ytUrl = Uri.parse(isi);
+        String videoID = ytUrl.queryParameters['v'].toString();
+        String ytImgUrl = "http://img.youtube.com/vi/" + videoID + "/0.jpg";
 
         content.add(
           Padding(
@@ -61,10 +111,12 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
               child: Center(
                 child: Column(
                   children: <Widget>[
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
-                      child: Image.network(ytimgURL),
+                      child: Image.network(ytImgUrl),
                     ),
                     Text(
                       ket,
@@ -73,7 +125,9 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     RaisedButton(
                       onPressed: () {
                         playYoutubeVideo(isi);
@@ -96,7 +150,7 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
-                    sampleContent[cntdx][i],
+                    sampleContent[currentIndexContent].coursecontent[i],
                     style: TextStyle(
                       fontSize: 26,
                       color: Colors.black,
@@ -130,7 +184,9 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
                 ),
               ),
               RaisedButton(
-                onPressed: (){bottomTapped(3);},
+                onPressed: () {
+                  bottomTapped(3);
+                },
                 child: Text(
                   "Week 2",
                   style: TextStyle(
@@ -151,19 +207,23 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
   );
 
   Widget buildPageView() {
-    return PageView(
-      controller: pageController,
-      onPageChanged: (index) {
-        pageChanged(index);
-      },
-      children: buildContent(sampleContent, 0),
-
+    return FutureBuilder(
+        future: loadDone,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return PageView(
+              controller: pageController,
+              onPageChanged: (index) {
+                pageChanged(index);
+              },
+              children: buildContent(sampleContent, 0),
+            );
+          } else if (snapshot.hasError) {
+            return Container(child: Text("${snapshot.error}"));
+          }
+          return Container(child: Center(child: CircularProgressIndicator()));
+        },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   void pageChanged(int index) {
@@ -193,40 +253,43 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
       bottomNavigationBar: BottomAppBar(
         child: Container(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                RaisedButton(
-                  child: Icon(Icons.arrow_left),
-                  onPressed: () {
-                    prevPage();},
-                ),
-                RaisedButton(
-                  child: Icon(Icons.assignment),
-                  onPressed: () {callBottomsheet();},
-                ),
-                RaisedButton(
-                  child: Icon(Icons.arrow_right),
-                  onPressed: () {
-                    nextPage();},
-                ),
-              ],
-            )),
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            RaisedButton(
+              child: Icon(Icons.arrow_left),
+              onPressed: () {
+                prevPage();
+              },
+            ),
+            RaisedButton(
+              child: Icon(Icons.assignment),
+              onPressed: () {
+                callBottomsheet();
+              },
+            ),
+            RaisedButton(
+              child: Icon(Icons.arrow_right),
+              onPressed: () {
+                nextPage();
+              },
+            ),
+          ],
+        )),
       ),
     );
   }
 
   void prevPage() {
-    if (bottomSelectedIndex>0){
-    bottomSelectedIndex=bottomSelectedIndex-1;
-    bottomTapped(bottomSelectedIndex);}
+    if (bottomSelectedIndex > 0) {
+      bottomSelectedIndex = bottomSelectedIndex - 1;
+      bottomTapped(bottomSelectedIndex);
+    }
   }
 
   void nextPage() {
-    if (bottomSelectedIndex<maxPage){
-    bottomSelectedIndex=bottomSelectedIndex+1;
-    bottomTapped(bottomSelectedIndex);}
+    if (bottomSelectedIndex < maxPage) {
+      bottomSelectedIndex = bottomSelectedIndex + 1;
+      bottomTapped(bottomSelectedIndex);
+    }
   }
 }
-
-
-

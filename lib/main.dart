@@ -8,7 +8,6 @@ import 'screen/pg21_main_course.dart';
 import 'screen/pg10_tentang.dart';
 import 'screen/pg15_materi.dart';
 import 'screen/pg11_hubungikami.dart';
-import 'services/request.dart';
 import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
@@ -17,6 +16,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   static const String _title = 'Flutter Code Sample';
   final String mm = "test";
+  final String defaultCourseUrl = "https://raw.githubusercontent.com/irzaip/SampleCourse/master/KecerdasanBuatan.md";
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         '/pg3_lainnya': (context) => Pg3_Lainnya(),
         '/pg10_tentang': (context) => Pg10_Tentang(),
         '/pg11_hubungikami': (context) => Pg11_HubungiKami(),
-        '/pg15_materi': (context) => Pg15_Materi(),
+        '/pg15_materi': (context) => Pg15_Materi(defaultCourseUrl),
         '/pg21_main_course': (context) => InputPage(),
         '/pg7_kelassaya': (context) => Pg7_KelasSaya(mm),
       },
@@ -327,13 +327,12 @@ class _MyCardState extends State<MyCard> {
                             ),
                             Spacer(),
                             RaisedButton(
-                              onLongPress: () {
-                                readurl(defUrlMasterMooc);
-                                print(course.deskripsi);
-                              },
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Pg7_KelasSaya(course?.url))) ;
+                             },
                               disabledColor: Colors.red,
                               color: Colors.indigo,
-                              onPressed: null,
+
                               child: Text(
                                 "Beli",
                                 style: TextStyle(color: Colors.white),
@@ -342,10 +341,10 @@ class _MyCardState extends State<MyCard> {
                             ),
                             RaisedButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, "/pg15_materi");
-                              },
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => Pg15_Materi(course?.url)));},
                               child: Text("Buka"),
-                            )
+                            ),
                           ],
                         ),
                       ],

@@ -52,7 +52,6 @@ class MoocMaster {
 
 class Course {
   String url;
-  Map parsedContent;
   String content;
 
   readurl(String url) async {
@@ -61,16 +60,9 @@ class Course {
     //print('Response body: ${response.body}');
     this.content = response.body;
 
-    RegExp regx = new RegExp(
-      r'(######+)(.*)',
-      multiLine: true,
-    ); // get the headers
-    RegExp regurl = new RegExp(r'\((http.*)\)', multiLine: true); // get urls
+    RegExp regx = new RegExp(r'(######+)(.*)', multiLine: true); // get the headers
 
-    var parsedTitle = content.split(regx);
-    //print(parsedTitle.length);
 
-    //parsedTitle.forEach((f) => print(f));
     var matched = regx.allMatches(content);
 
     List<CourseContent> mycourse = [];
@@ -93,9 +85,10 @@ class Course {
         print("error parsing - content, maybe it's the end");
       }
     }
-    mycourse[2].coursecontent.forEach((element) {
-      print(element);
-    });
+    //mycourse[2].coursecontent.forEach((element) {
+      //print(element);
+    //}
+    //);
     return mycourse;
   }
 }
