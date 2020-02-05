@@ -5,20 +5,20 @@ import 'package:trampill/services/keys.dart';
 import 'package:trampill/services/Course.dart';
 import 'package:http/http.dart' as http;
 
-class Pg15_Materi extends StatefulWidget {
+class Pg15Materi extends StatefulWidget {
   final String courseUrl;
-  Pg15_Materi(this.courseUrl);
+  Pg15Materi(this.courseUrl);
 
   @override
-  _Pg15_MateriState createState() => _Pg15_MateriState(this.courseUrl);
+  _Pg15MateriState createState() => _Pg15MateriState(this.courseUrl);
 }
 
-class _Pg15_MateriState extends State<Pg15_Materi> {
+class _Pg15MateriState extends State<Pg15Materi> {
   //bool _isInitialized = false;
   String courseUrl = "";
   Future<int> loadDone;
 
-  _Pg15_MateriState(String ttl);
+  _Pg15MateriState(String ttl);
 
   int bottomSelectedIndex = 0;
   int maxPage = 0;
@@ -52,7 +52,7 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
 
     RegExp regx =
         new RegExp(r'(######+)(.*)', multiLine: true); // get the headers
-    RegExp regurl = new RegExp(r'\((http.*)\)', multiLine: true); // get urls
+    //RegExp regurl = new RegExp(r'\((http.*)\)', multiLine: true); // get urls
 
     var matched = regx.allMatches(content);
     print(matched.length);
@@ -209,7 +209,7 @@ class _Pg15_MateriState extends State<Pg15_Materi> {
   Widget buildPageView() {
     return FutureBuilder(
       future: loadDone,
-      builder: (context, snapshot) {
+      builder: (context,  AsyncSnapshot<int> snapshot) {
         if (snapshot.hasData) {
           return PageView(
             controller: pageController,

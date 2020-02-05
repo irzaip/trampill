@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:trampill/services/request.dart';
 
 
-class Pg7_KelasSaya extends StatefulWidget {
+
+class Pg7KelasSaya extends StatefulWidget {
   final String contentUrl;
-  Pg7_KelasSaya(this.contentUrl);
+  Pg7KelasSaya(this.contentUrl);
 
   @override
-  _Pg7_KelasSayaState createState() => _Pg7_KelasSayaState(this.contentUrl);
+  _Pg7KelasSayaState createState() => _Pg7KelasSayaState(this.contentUrl);
 }
 
-class _Pg7_KelasSayaState extends State<Pg7_KelasSaya> {
+class _Pg7KelasSayaState extends State<Pg7KelasSaya> {
   String contentUrl = "";
 
-  _Pg7_KelasSayaState(String ttl);
+  _Pg7KelasSayaState(String ttl);
 
 @override
   void initState() {
@@ -39,10 +39,7 @@ class _Pg7_KelasSayaState extends State<Pg7_KelasSaya> {
               style: TextStyle(fontSize: 20),
             ),
             RaisedButton(
-              onPressed: () {
-                var mycrs = MoocMaster();
-                var result = mycrs.readurl("https://raw.githubusercontent.com/irzaip/TrampillMasterMooc/master/Master.mm");
-                },
+              onPressed: () { },
               child: Text("DEBUG"),
             ),
             Text(

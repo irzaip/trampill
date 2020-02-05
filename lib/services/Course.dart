@@ -1,4 +1,4 @@
-class masterMooc {
+class MasterMooc {
   final String title;
   final String oleh;
   final String kategori;
@@ -7,7 +7,7 @@ class masterMooc {
   final String rating;
   final String url;
 
-  masterMooc(this.title, this.oleh, this.kategori, this.deskripsi, this.harga, this.rating, this.url);
+  MasterMooc(this.title, this.oleh, this.kategori, this.deskripsi, this.harga, this.rating, this.url);
 
 }
 

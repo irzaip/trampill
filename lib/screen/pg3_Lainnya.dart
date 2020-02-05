@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class Pg3_Lainnya extends StatelessWidget {
+class Pg3Lainnya extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

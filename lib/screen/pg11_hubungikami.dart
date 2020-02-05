@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 
 
-class Pg11_HubungiKami extends StatelessWidget {
+class Pg11HubungiKami extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

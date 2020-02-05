@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-class Pg10_Tentang extends StatelessWidget {
+class Pg10Tentang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

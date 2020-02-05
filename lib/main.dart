@@ -29,12 +29,12 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => MyStatefulWidget(),
-        '/pg3_lainnya': (context) => Pg3_Lainnya(),
-        '/pg10_tentang': (context) => Pg10_Tentang(),
-        '/pg11_hubungikami': (context) => Pg11_HubungiKami(),
-        '/pg15_materi': (context) => Pg15_Materi(defaultCourseUrl),
+        '/pg3_lainnya': (context) => Pg3Lainnya(),
+        '/pg10_tentang': (context) => Pg10Tentang(),
+        '/pg11_hubungikami': (context) => Pg11HubungiKami(),
+        '/pg15_materi': (context) => Pg15Materi(defaultCourseUrl),
         '/pg21_main_course': (context) => InputPage(),
-        '/pg7_kelassaya': (context) => Pg7_KelasSaya(mm),
+        '/pg7_kelassaya': (context) => Pg7KelasSaya(mm),
       },
     );
   }
@@ -49,26 +49,26 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Lainnya',
-      style: optionStyle,
-    ),
-  ];
+//  static const TextStyle optionStyle =
+//      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+//  static const List<Widget> _widgetOptions = <Widget>[
+//    Text(
+//      'Index 0: Home',
+//      style: optionStyle,
+//    ),
+//    Text(
+//      'Index 1: Business',
+//      style: optionStyle,
+//    ),
+//    Text(
+//      'Index 2: School',
+//      style: optionStyle,
+//    ),
+//    Text(
+//      'Index 3: Lainnya',
+//      style: optionStyle,
+//    ),
+//  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -92,9 +92,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       appBar: AppBar(
         actions: <Widget>[
           RaisedButton(
+            onPressed: (){},
             child: Icon(Icons.search),
           ),
           RaisedButton(
+            onPressed: (){},
             child: Icon(Icons.settings),
           )
         ],
@@ -140,7 +142,7 @@ class MyCard extends StatefulWidget {
 class _MyCardState extends State<MyCard> {
 
   var defUrlMasterMooc = "https://raw.githubusercontent.com/irzaip/TrampillMasterMooc/master/Master.md";
-  List<masterMooc> courseList = new List<masterMooc>();
+  List<MasterMooc> courseList = new List<MasterMooc>();
 
 //  List<masterMooc> courseList = [
 //    masterMooc(
@@ -211,7 +213,7 @@ class _MyCardState extends State<MyCard> {
 
           // tambahkan sejumlah field yang tersedia !
           elm=elm+6;
-          courseList.add(new masterMooc(
+          courseList.add(new MasterMooc(
               judul,
               oleh,
               kategori,
@@ -239,7 +241,7 @@ class _MyCardState extends State<MyCard> {
     );
   }
 
-  Widget buildCourse(BuildContext context, int index, masterMooc courseList) {
+  Widget buildCourse(BuildContext context, int index, MasterMooc courseList) {
     final course = courseList;
     TextStyle bigfont = TextStyle(
       fontSize: 20,
@@ -328,7 +330,7 @@ class _MyCardState extends State<MyCard> {
                             Spacer(),
                             RaisedButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Pg7_KelasSaya(course?.url))) ;
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Pg7KelasSaya(course?.url))) ;
                              },
                               disabledColor: Colors.red,
                               color: Colors.indigo,
@@ -342,7 +344,7 @@ class _MyCardState extends State<MyCard> {
                             RaisedButton(
                               onPressed: () {
                                   Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => Pg15_Materi(course?.url)));},
+                                      builder: (context) => Pg15Materi(course?.url)));},
                               child: Text("Buka"),
                             ),
                           ],

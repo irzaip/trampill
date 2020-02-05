@@ -26,7 +26,7 @@ class MoocMaster {
       
         print(urls.length);
       
-        List<masterMooc> moocdict = [];
+        List<MasterMooc> moocdict = [];
         var elm = 0; // start element 0
       
         for (var i = 0; i < urls.length; i = i + 1) {
@@ -39,7 +39,7 @@ class MoocMaster {
           String rating = titles.elementAt(elm + 5).group(2).toString();
           String url = urls.elementAt(i).group(1).toString();
       
-          moocdict.add(new masterMooc(judul, oleh, kategori, deskripsi, harga, rating, url));
+          moocdict.add(new MasterMooc(judul, oleh, kategori, deskripsi, harga, rating, url));
         }
         return moocdict;
       } else
