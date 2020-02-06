@@ -24,7 +24,7 @@ class _Pg15MateriState extends State<Pg15Materi> {
   int maxPage = 0;
   String defaultCourseUrl =
       "https://raw.githubusercontent.com/irzaip/SampleCourse/master/KecerdasanBuatan.md";
-  List<CourseContent> sampleContent = new List<CourseContent>();
+  List<CourseContent> contentToDisplay = new List<CourseContent>();
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _Pg15MateriState extends State<Pg15Materi> {
         LineSplitter ls = new LineSplitter();
         List<String> coursecontent = ls.convert(cutResult);
 
-        sampleContent.add(new CourseContent(
+        contentToDisplay.add(new CourseContent(
             matched.elementAt(i).group(0).toString(), coursecontent));
       } catch (e) {
         print("error parsing - content, maybe it's the end");
@@ -80,17 +80,17 @@ class _Pg15MateriState extends State<Pg15Materi> {
     List<Widget> content = new List<Widget>();
     List<String> tablecontent = new List<String>();
 
-    sampleContent.forEach((element) {
+    contentToDisplay.forEach((element) {
       tablecontent.add(element.title);
       print(element.title);
     });
 
     var currentIndexContent = 0;
-    maxPage = sampleContent[currentIndexContent].coursecontent.length;
+    maxPage = contentToDisplay[currentIndexContent].coursecontent.length;
 
     for (var i = 0; i < maxPage; i++) {
       String isi =
-          sampleContent[currentIndexContent].coursecontent[i].toString();
+          contentToDisplay[currentIndexContent].coursecontent[i].toString();
       if (isi.contains("youtube")) {
         //manipulasi url dalam kurung
         isi = isi.replaceAll("(", "").replaceAll(")", "");
@@ -150,7 +150,7 @@ class _Pg15MateriState extends State<Pg15Materi> {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
-                    sampleContent[currentIndexContent].coursecontent[i],
+                    contentToDisplay[currentIndexContent].coursecontent[i],
                     style: TextStyle(
                       fontSize: 26,
                       color: Colors.black,
@@ -216,7 +216,7 @@ class _Pg15MateriState extends State<Pg15Materi> {
             onPageChanged: (index) {
               pageChanged(index);
             },
-            children: buildContent(sampleContent, 0),
+            children: buildContent(contentToDisplay, 0),
           );
         } else if (snapshot.hasError) {
           return Container(child: Text("${snapshot.error}"));

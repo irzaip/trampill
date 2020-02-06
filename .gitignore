@@ -74,4 +74,5 @@
 build/**
 
 lib/services/keys.dart
-
+key.jks
+android/key.properties
