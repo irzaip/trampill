@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:trampill/services/keys.dart';
@@ -19,7 +20,7 @@ class _Pg15MateriState extends State<Pg15Materi> {
   Future<int> loadDone;
 
   _Pg15MateriState(String ttl);
-
+  int TOCIndex = 0;
   int bottomSelectedIndex = 0;
   int maxPage = 0;
   String defaultCourseUrl =
@@ -29,7 +30,7 @@ class _Pg15MateriState extends State<Pg15Materi> {
   @override
   void initState() {
     courseUrl = widget.courseUrl;
-    print(courseUrl);
+    //print(courseUrl);
 
     if (courseUrl == "") {
       courseUrl = defaultCourseUrl;
@@ -55,7 +56,6 @@ class _Pg15MateriState extends State<Pg15Materi> {
     //RegExp regurl = new RegExp(r'\((http.*)\)', multiLine: true); // get urls
 
     var matched = regx.allMatches(content);
-    print(matched.length);
 
     for (int i = 0; i < matched.length; i++) {
       try {
@@ -66,8 +66,14 @@ class _Pg15MateriState extends State<Pg15Materi> {
         LineSplitter ls = new LineSplitter();
         List<String> coursecontent = ls.convert(cutResult);
 
+        for (int cc = 0; cc < coursecontent.length; cc++) {
+           if (coursecontent[cc] == "") {
+             coursecontent.removeAt(cc);
+           }
+        };
+
         contentToDisplay.add(new CourseContent(
-            matched.elementAt(i).group(0).toString(), coursecontent));
+            matched.elementAt(i).group(2).toString().trim(), coursecontent));
       } catch (e) {
         print("error parsing - content, maybe it's the end");
       }
@@ -78,15 +84,10 @@ class _Pg15MateriState extends State<Pg15Materi> {
 
   buildContent(List<CourseContent> coursecontent, int index) {
     List<Widget> content = new List<Widget>();
-    List<String> tablecontent = new List<String>();
 
-    contentToDisplay.forEach((element) {
-      tablecontent.add(element.title);
-      print(element.title);
-    });
-
-    var currentIndexContent = 0;
+    var currentIndexContent = index;
     maxPage = contentToDisplay[currentIndexContent].coursecontent.length;
+
 
     for (var i = 0; i < maxPage; i++) {
       String isi =
@@ -172,34 +173,42 @@ class _Pg15MateriState extends State<Pg15Materi> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          child: Column(
-            children: <Widget>[
-              RaisedButton(
-                onPressed: null,
-                child: Text(
-                  "Week 1",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView(
+                children: TableOfContent(),
               ),
-              RaisedButton(
-                onPressed: () {
-                  bottomTapped(3);
-                },
-                child: Text(
-                  "Week 2",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
+            ),
+          );
       },
     );
   }
+
+  List<Widget> TableOfContent() {
+    List<Widget> TOCcontent = new List<Widget>();
+
+    for (int i = 0 ; i < contentToDisplay.length; i++) {
+
+       TOCcontent.add(
+         RaisedButton(
+           onPressed: () {
+             setState(() {
+               TOCIndex = i;
+               bottomSelectedIndex = 0;
+               buildContent(contentToDisplay, TOCIndex);
+               pageController.jumpToPage(0);
+               Navigator.of(context).pop();
+             });
+           },
+           color: Colors.blue,
+           child: Text(contentToDisplay[i].title.toString()),
+         )
+       );
+
+    }
+    return TOCcontent;
+  }
+
 
   PageController pageController = PageController(
     initialPage: 0,
@@ -216,7 +225,7 @@ class _Pg15MateriState extends State<Pg15Materi> {
             onPageChanged: (index) {
               pageChanged(index);
             },
-            children: buildContent(contentToDisplay, 0),
+            children: buildContent(contentToDisplay, TOCIndex),
           );
         } else if (snapshot.hasError) {
           return Container(child: Text("${snapshot.error}"));

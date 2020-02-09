@@ -1,9 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+
 
 
 
 class Pg11HubungiKami extends StatelessWidget {
+
+  final String myText = """
+  
+# HUBUNGI KAMI.
+
+### irzaip@gmail.com
+### alternative.xen@gmail.com
+### erisriso@gmail.com
+### asman13300045@gmail.com
+  
+  """;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,18 +28,10 @@ class Pg11HubungiKami extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.fromLTRB(20, 30, 30, 30),
         alignment: Alignment.topLeft,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Text("Hubungi kami di"),
-            new Text("email:"),
-            new Text(""),
-            new Text("irzaip@gmail.com"),
-          ],
+        child: Markdown(data: myText),
         ),
-      )
+      );
 
-    );
+
   }
 }
