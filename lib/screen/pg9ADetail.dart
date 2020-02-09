@@ -11,7 +11,7 @@ class Pg9ADetail extends StatefulWidget {
 }
 
 class _Pg9ADetailState extends State<Pg9ADetail> {
-
+  TextStyle fieldFont = TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700 );
   TextStyle bigFont = TextStyle(color: Colors.black, fontSize: 20, );
   TextStyle mediumfont = TextStyle(fontSize: 18, color: Colors.black);
   TextStyle deskripsifont = TextStyle(fontSize: 16, color: Colors.black);
@@ -32,23 +32,23 @@ class _Pg9ADetailState extends State<Pg9ADetail> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 14,),
-              Text("JUDUL :", style: bigFont),
+              Text("JUDUL :", style: fieldFont),
               Text(widget.mmooc.title, style: bigFont,),
-              SizedBox(height: 14,),
-              Text("DIBUAT :"),
+              SizedBox(height: 14, ),
+              Text("DIBUAT :", style: fieldFont,),
               Text(widget.mmooc.oleh, style: mediumfont,),
               SizedBox(height: 14,),
               Text(widget.mmooc.kategori, style: kategorifont,),
               SizedBox(height: 14,),
               SizedBox(height: 14,),
-              Text("DESKRIPSI :", style: bigFont,),
+              Text("DESKRIPSI :", style: fieldFont,),
               Text(widget.mmooc.deskripsi, style: deskripsifont,),
               SizedBox(height: 14,),
               SizedBox(height: 14,),
-              Text("RATING :", style: bigFont,),
+              Text("RATING :", style: fieldFont,),
               Text(widget.mmooc.rating, style: kategorifont,),
               SizedBox(height: 14,),
-              Text("HARGA :"),
+              Text("HARGA :", style: fieldFont,),
               Text(widget.mmooc.harga, style: hargafont,),
             ],
           ),
