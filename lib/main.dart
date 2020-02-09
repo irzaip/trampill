@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trampill/screen/pg11_hubungikami.dart';
 import 'package:trampill/screen/pg7_kelassaya.dart';
+import 'package:trampill/screen/pg9ADetail.dart';
 import 'package:trampill/services/Course.dart';
 import 'screen/pg3_Lainnya.dart';
 import 'package:trampill/screen/pg3_Lainnya.dart';
@@ -16,7 +17,9 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   static const String _title = 'Flutter Code Sample';
   final String mm = "test";
-  final String defaultCourseUrl = "https://raw.githubusercontent.com/irzaip/SampleCourse/master/KecerdasanBuatan.md";
+  final String defaultCourseUrl =
+      "https://raw.githubusercontent.com/irzaip/SampleCourse/master/KecerdasanBuatan.md";
+  final MasterMooc mmooc = MasterMooc("","","","","","","");
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/pg15_materi': (context) => Pg15Materi(defaultCourseUrl),
         '/pg21_main_course': (context) => InputPage(),
         '/pg7_kelassaya': (context) => Pg7KelasSaya(mm),
+        '/pg9a_detail': (context) => Pg9ADetail(mmooc),
       },
     );
   }
@@ -141,7 +145,8 @@ class MyCard extends StatefulWidget {
 
 class _MyCardState extends State<MyCard> {
 
-  var defUrlMasterMooc = "https://raw.githubusercontent.com/irzaip/TrampillMasterMooc/master/Master.md";
+  var defUrlMasterMooc =
+      "https://raw.githubusercontent.com/irzaip/TrampillMasterMooc/master/Master.md";
   List<MasterMooc> courseList = new List<MasterMooc>();
 
 //  List<masterMooc> courseList = [
@@ -236,7 +241,8 @@ class _MyCardState extends State<MyCard> {
       color: Colors.grey,
       child: new ListView.builder(
         itemCount: courseList.length,
-          itemBuilder: (BuildContext context , int index) =>  buildCourse(context, index, courseList[index])
+          itemBuilder: (BuildContext context , int index) =>
+              buildCourse(context, index, courseList[index])
       ),
     );
   }
@@ -249,7 +255,7 @@ class _MyCardState extends State<MyCard> {
       fontWeight: FontWeight.bold,
     );
     TextStyle mediumfont = TextStyle(fontSize: 18, color: Colors.black);
-    TextStyle deskripsifont = TextStyle(fontSize: 16, color: Colors.black);
+    //TextStyle deskripsifont = TextStyle(fontSize: 16, color: Colors.black);
     TextStyle kategorifont = TextStyle(fontSize: 14, color: Colors.blueGrey);
     TextStyle hargafont = TextStyle(
         fontSize: 20, color: Colors.redAccent, fontWeight: FontWeight.w700);
@@ -258,13 +264,15 @@ class _MyCardState extends State<MyCard> {
         padding: const EdgeInsets.all(8.0),
         child: GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, "/pg15_materi");
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                Pg9ADetail(course))) ;
           },
           child: Card(
             elevation: 10,
             color: Colors.white,
             shape: RoundedRectangleBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(20))),
+                borderRadius: const BorderRadius.all(Radius.circular(20))
+            ),
             child: Row(
               children: <Widget>[
                 Padding(
@@ -307,17 +315,8 @@ class _MyCardState extends State<MyCard> {
                         ),
                         Row(
                           children: <Widget>[
-                            Flexible(
-                                child: Text(
-                              course.deskripsi,
-                              style: deskripsifont,
-                            )),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
                             SizedBox(
-                              height: 20,
+                              height: 5,
                             )
                           ],
                         ),
@@ -328,24 +327,14 @@ class _MyCardState extends State<MyCard> {
                               style: hargafont,
                             ),
                             Spacer(),
-                            RaisedButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Pg7KelasSaya(course?.url))) ;
-                             },
-                              disabledColor: Colors.red,
-                              color: Colors.indigo,
-
-                              child: Text(
-                                "Beli",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              elevation: 10,
-                            ),
+                            BuyButton(course: course),
                             RaisedButton(
                               onPressed: () {
                                   Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => Pg15Materi(course?.url)));},
-                              child: Text("Buka"),
+                                      builder: (context) =>
+                                          Pg15Materi(course?.url)
+                                  ));},
+                              child: Text("BUKA"),
                             ),
                           ],
                         ),
@@ -359,5 +348,33 @@ class _MyCardState extends State<MyCard> {
         ),
       ),
     );
+  }
+}
+
+class BuyButton extends StatelessWidget {
+  const BuyButton({
+    Key key,
+    @required this.course,
+  }) : super(key: key);
+
+  final MasterMooc course;
+
+  @override
+  Widget build(BuildContext context) {
+    if (course.harga.toString().trim() != "Free" &&
+        course.harga.toString().trim() != "Gratis")
+    { return RaisedButton(
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context)
+        => Pg7KelasSaya(course?.url))) ;
+     },
+      disabledColor: Colors.grey,
+      color: Colors.red,
+      child: Text("BELI",),
+    elevation: 10,);}
+    else {
+      return SizedBox();
+    }
+
   }
 }

@@ -20,7 +20,7 @@ class _Pg15MateriState extends State<Pg15Materi> {
   Future<int> loadDone;
 
   _Pg15MateriState(String ttl);
-  int TOCIndex = 0;
+  int tOCIndex = 0;
   int bottomSelectedIndex = 0;
   int maxPage = 0;
   String defaultCourseUrl =
@@ -67,10 +67,10 @@ class _Pg15MateriState extends State<Pg15Materi> {
         List<String> coursecontent = ls.convert(cutResult);
 
         for (int cc = 0; cc < coursecontent.length; cc++) {
-           if (coursecontent[cc] == "") {
-             coursecontent.removeAt(cc);
-           }
-        };
+          if (coursecontent[cc] == "") {
+            coursecontent.removeAt(cc);
+          }
+        }
 
         contentToDisplay.add(new CourseContent(
             matched.elementAt(i).group(2).toString().trim(), coursecontent));
@@ -87,7 +87,6 @@ class _Pg15MateriState extends State<Pg15Materi> {
 
     var currentIndexContent = index;
     maxPage = contentToDisplay[currentIndexContent].coursecontent.length;
-
 
     for (var i = 0; i < maxPage; i++) {
       String isi =
@@ -116,14 +115,17 @@ class _Pg15MateriState extends State<Pg15Materi> {
                       height: 20,
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Image.network(ytImgUrl),
                     ),
-                    Text(
-                      ket,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        ket,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -164,7 +166,7 @@ class _Pg15MateriState extends State<Pg15Materi> {
         );
       }
     }
-
+    content.removeLast();
     return content;
   }
 
@@ -173,42 +175,37 @@ class _Pg15MateriState extends State<Pg15Materi> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView(
-                children: TableOfContent(),
-              ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView(
+              children: tableOfContent(),
             ),
-          );
+          ),
+        );
       },
     );
   }
 
-  List<Widget> TableOfContent() {
-    List<Widget> TOCcontent = new List<Widget>();
+  List<Widget> tableOfContent() {
+    List<Widget> _tOCcontent = new List<Widget>();
 
-    for (int i = 0 ; i < contentToDisplay.length; i++) {
-
-       TOCcontent.add(
-         RaisedButton(
-           onPressed: () {
-             setState(() {
-               TOCIndex = i;
-               bottomSelectedIndex = 0;
-               buildContent(contentToDisplay, TOCIndex);
-               pageController.jumpToPage(0);
-               Navigator.of(context).pop();
-             });
-           },
-           color: Colors.blue,
-           child: Text(contentToDisplay[i].title.toString()),
-         )
-       );
-
+    for (int i = 0; i < contentToDisplay.length; i++) {
+      _tOCcontent.add(RaisedButton(
+        onPressed: () {
+          setState(() {
+            tOCIndex = i;
+            bottomSelectedIndex = 0;
+            buildContent(contentToDisplay, tOCIndex);
+            pageController.jumpToPage(0);
+            Navigator.of(context).pop();
+          });
+        },
+        color: Colors.blue,
+        child: Text(contentToDisplay[i].title.toString()),
+      ));
     }
-    return TOCcontent;
+    return _tOCcontent;
   }
-
 
   PageController pageController = PageController(
     initialPage: 0,
@@ -218,14 +215,14 @@ class _Pg15MateriState extends State<Pg15Materi> {
   Widget buildPageView() {
     return FutureBuilder(
       future: loadDone,
-      builder: (context,  AsyncSnapshot<int> snapshot) {
+      builder: (context, AsyncSnapshot<int> snapshot) {
         if (snapshot.hasData) {
           return PageView(
             controller: pageController,
             onPageChanged: (index) {
               pageChanged(index);
             },
-            children: buildContent(contentToDisplay, TOCIndex),
+            children: buildContent(contentToDisplay, tOCIndex),
           );
         } else if (snapshot.hasError) {
           return Container(child: Text("${snapshot.error}"));
@@ -261,34 +258,35 @@ class _Pg15MateriState extends State<Pg15Materi> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            RaisedButton(
-              child: Icon(Icons.arrow_left),
-              onPressed: () {
-                prevPage();
-                print("Pressed Left");
-                print(bottomSelectedIndex);
-              },
-            ),
-            RaisedButton(
-              child: Icon(Icons.assignment),
-              onPressed: () {
-                callBottomsheet();
-              },
-            ),
-            RaisedButton(
-              child: Icon(Icons.arrow_right),
-              onPressed: () {
-                nextPage();
-                print("Pressed Right");
-                print(maxPage);
-                print(bottomSelectedIndex);
-              },
-            ),
-          ],
-        )),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              RaisedButton(
+                child: Icon(Icons.arrow_left),
+                onPressed: () {
+                  prevPage();
+                  print("Pressed Left");
+                  print(bottomSelectedIndex);
+                },
+              ),
+              RaisedButton(
+                child: Icon(Icons.assignment),
+                onPressed: () {
+                  callBottomsheet();
+                },
+              ),
+              RaisedButton(
+                child: Icon(Icons.arrow_right),
+                onPressed: () {
+                  nextPage();
+                  print("Pressed Right");
+                  print(maxPage);
+                  print(bottomSelectedIndex);
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
