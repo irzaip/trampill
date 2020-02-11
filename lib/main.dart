@@ -95,14 +95,39 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          RaisedButton(
-            onPressed: (){},
-            child: Icon(Icons.search),
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => MyApp()));
+                },
+                child: Icon(
+                  Icons.refresh,
+                  size: 26.0,
+                ),
+              )
           ),
-          RaisedButton(
-            onPressed: (){},
-            child: Icon(Icons.settings),
-          )
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.search,
+                  size: 26.0,
+                ),
+              )
+          ),
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                    Icons.settings
+                ),
+              )
+          ),
         ],
         backgroundColor: Colors.indigo,
         title: const Text('Trampill'),

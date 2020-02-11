@@ -29,7 +29,9 @@ class _Pg9ADetailState extends State<Pg9ADetail> {
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            verticalDirection: VerticalDirection.down,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               SizedBox(height: 14,),
               Text("JUDUL :", style: fieldFont),

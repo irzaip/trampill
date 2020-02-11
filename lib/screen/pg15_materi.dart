@@ -6,6 +6,7 @@ import 'package:trampill/services/keys.dart';
 import 'package:trampill/services/Course.dart';
 import 'package:http/http.dart' as http;
 
+
 class Pg15Materi extends StatefulWidget {
   final String courseUrl;
   Pg15Materi(this.courseUrl);
@@ -51,35 +52,33 @@ class _Pg15MateriState extends State<Pg15Materi> {
     print('Response status: ${response.statusCode}');
     var content = response.body;
 
-    RegExp regx =
-        new RegExp(r'(######+)(.*)', multiLine: true); // get the headers
-    //RegExp regurl = new RegExp(r'\((http.*)\)', multiLine: true); // get urls
-
-    var matched = regx.allMatches(content);
-
-    for (int i = 0; i < matched.length; i++) {
-      try {
-        var cutBegin = content.indexOf(matched.elementAt(i).group(0));
-        var cutEnd = content.indexOf(matched.elementAt(i + 1).group(0));
-        var cutResult = content.substring(cutBegin, cutEnd);
+    if (response.statusCode == 200) {
 
         LineSplitter ls = new LineSplitter();
-        List<String> coursecontent = ls.convert(cutResult);
+        List<String> coursecontent = ls.convert(content);
+        List<int> headindx = [];
 
-        for (int cc = 0; cc < coursecontent.length; cc++) {
-          if (coursecontent[cc] == "") {
-            coursecontent.removeAt(cc);
+        //coursecontent.removeWhere((element) => element.toString() == "");
+
+        coursecontent.asMap().forEach((index, element) {
+          if (element.startsWith("# ")) {
+            //print(index);
+            headindx.add(index);
           }
+        });
+
+        for (int i = 0; i < headindx.length - 1; i++) {
+          List<String> cleaned = coursecontent.getRange(headindx[i],headindx[i+1]).toList();
+
+          contentToDisplay.add(new CourseContent(coursecontent[headindx[i]],
+              cleaned));
         }
 
-        contentToDisplay.add(new CourseContent(
-            matched.elementAt(i).group(2).toString().trim(), coursecontent));
-      } catch (e) {
-        print("error parsing - content, maybe it's the end");
-      }
-    }
-    setState(() {});
-    return 1;
+        return 1;
+    } else {
+    List<String> cont = ["ERROR", "ERROR"];
+    contentToDisplay.add(new CourseContent("ERROR LOADING", cont));
+    return 1; }
   }
 
   buildContent(List<CourseContent> coursecontent, int index) {
