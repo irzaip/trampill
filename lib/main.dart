@@ -11,23 +11,17 @@ import 'screen/pg15_materi.dart';
 import 'screen/pg11_hubungikami.dart';
 import 'package:http/http.dart' as http;
 
+
 void main() => runApp(MyApp());
 
-/// This Widget is the main application widget.
 class MyApp extends StatelessWidget {
-  static const String _title = 'Flutter Code Sample';
-  final String mm = "test";
-  final String defaultCourseUrl =
-      "https://raw.githubusercontent.com/irzaip/SampleCourse/master/KecerdasanBuatan.md";
-  final MasterMooc mmooc = MasterMooc("","","","","","","");
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
+      title: "Tramp",
       theme: ThemeData.dark().copyWith(
-        primaryColor: Color(0xFF0A0A0A),
-        scaffoldBackgroundColor: Color(0xFF0A0A0A),
+        primaryColor: Colors.blue,
+        scaffoldBackgroundColor: Colors.grey,
       ),
       initialRoute: '/',
       routes: {
@@ -35,184 +29,33 @@ class MyApp extends StatelessWidget {
         '/pg3_lainnya': (context) => Pg3Lainnya(),
         '/pg10_tentang': (context) => Pg10Tentang(),
         '/pg11_hubungikami': (context) => Pg11HubungiKami(),
-        '/pg15_materi': (context) => Pg15Materi(defaultCourseUrl),
         '/pg21_main_course': (context) => InputPage(),
-        '/pg7_kelassaya': (context) => Pg7KelasSaya(mm),
-        '/pg9a_detail': (context) => Pg9ADetail(mmooc),
-      },
+      }
     );
   }
 }
 
 class MyStatefulWidget extends StatefulWidget {
-  MyStatefulWidget({Key key}) : super(key: key);
-
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
-//  static const TextStyle optionStyle =
-//      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
-//  static const List<Widget> _widgetOptions = <Widget>[
-//    Text(
-//      'Index 0: Home',
-//      style: optionStyle,
-//    ),
-//    Text(
-//      'Index 1: Business',
-//      style: optionStyle,
-//    ),
-//    Text(
-//      'Index 2: School',
-//      style: optionStyle,
-//    ),
-//    Text(
-//      'Index 3: Lainnya',
-//      style: optionStyle,
-//    ),
-//  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-
-      if (_selectedIndex == 1) {
-        Navigator.pushNamed(context, "/pg7_kelassaya");
-      }
-      if (_selectedIndex == 2) {
-        print("Hello");
-      }
-      if (_selectedIndex == 3) {
-        Navigator.pushNamed(context, '/pg3_lainnya');
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => MyApp()));
-                },
-                child: Icon(
-                  Icons.refresh,
-                  size: 26.0,
-                ),
-              )
-          ),
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.search,
-                  size: 26.0,
-                ),
-              )
-          ),
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                    Icons.settings
-                ),
-              )
-          ),
-        ],
-        backgroundColor: Colors.indigo,
-        title: const Text('Trampill'),
-      ),
-      body: MyCard(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            backgroundColor: Colors.indigo,
-            icon: Icon(Icons.home),
-            title: Text('Beranda'),
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Colors.indigo,
-            icon: Icon(Icons.school),
-            title: Text('Belajar'),
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Colors.indigo,
-            icon: Icon(Icons.ev_station),
-            title: Text('Pembayaran'),
-          ),
-          BottomNavigationBarItem(
-              backgroundColor: Colors.indigo,
-              icon: Icon(Icons.more_horiz),
-              title: Text('Lainnya')),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-
-class MyCard extends StatefulWidget {
-  @override
-  _MyCardState createState() => _MyCardState();
-}
-
-class _MyCardState extends State<MyCard> {
-
   var defUrlMasterMooc =
       "https://raw.githubusercontent.com/irzaip/TrampillMasterMooc/master/Master.md";
   List<MasterMooc> courseList = new List<MasterMooc>();
-
-//  List<masterMooc> courseList = [
-//    masterMooc(
-//      "KECERDASAN BUATAN - Informal",
-//      "oleh Irza Pulungan",
-//      "Teknologi, Programming",
-//      "Belajar kecerdasan buatan dan hal-hal yang berkaitan dengan Machine learning, Jaringan Syaraf Tiruan dan Deep Learning",
-//      "Gratis",
-//      "4.8",
-//      "",
-//    ),
-//    masterMooc(
-//      "Belajar membuat Website menggunakan Lavarel",
-//      "oleh lavindo",
-//      "Teknologi, Programming",
-//      "Buat Website yang sangat kustom dengan kebutuhan kamu semua.",
-//      "Gratis",
-//      "4.3",
-//      "",
-//    ),
-//    masterMooc(
-//      "Programming dengan Flutter",
-//      "oleh ABC",
-//      "Teknologi, Programming",
-//      "Belajar menggunakan aplikasi Flutter",
-//      "Gratis",
-//      "4.5",
-//      "",
-//    ),
-//  ];
-
+  Future<int> loadDone;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    readurl(defUrlMasterMooc);
+    loadDone = readurl(defUrlMasterMooc);
   }
 
-  Future readurl(String url) async {
+  Future<int> readurl(String url) async {
+    courseList.clear();
     //var client = http.Client();
     http.Response response = await http.get(url);
     print('Response status: ${response.statusCode}');
@@ -252,28 +95,35 @@ class _MyCardState extends State<MyCard> {
               rating,
               url));
         }
-
         setState(() {});
+        return 1;
       } else {
         print("MOOC MASTER COURSE READ - ERROR!");
+        return 0;
       }
     }
+    return 1;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey,
-      child: new ListView.builder(
-        itemCount: courseList.length,
-          itemBuilder: (BuildContext context , int index) =>
-              buildCourse(context, index, courseList[index])
-      ),
-    );
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+
+      if (_selectedIndex == 1) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>
+            Pg7KelasSaya("Ini dia course"))) ;
+      }
+      if (_selectedIndex == 2) {
+        print("Hello");
+      }
+      if (_selectedIndex == 3) {
+        Navigator.pushNamed(context, '/pg3_lainnya');
+      }
+    });
   }
 
-  Widget buildCourse(BuildContext context, int index, MasterMooc courseList) {
-    final course = courseList;
+  List<Widget> courseCard() {
     TextStyle bigfont = TextStyle(
       fontSize: 20,
       color: Colors.black,
@@ -284,122 +134,170 @@ class _MyCardState extends State<MyCard> {
     TextStyle kategorifont = TextStyle(fontSize: 14, color: Colors.blueGrey);
     TextStyle hargafont = TextStyle(
         fontSize: 20, color: Colors.redAccent, fontWeight: FontWeight.w700);
-    return new Container(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                Pg9ADetail(course))) ;
-          },
-          child: Card(
-            elevation: 10,
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(20))
-            ),
-            child: Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.ac_unit,
-                    color: Colors.black,
-                    size: 50,
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Flexible(
-                                child: Text(
-                              course.title,
-                              style: bigfont,
-                            )),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              course.oleh,
-                              style: mediumfont,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              course.kategori,
-                              style: kategorifont,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 5,
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              course.harga,
-                              style: hargafont,
-                            ),
-                            Spacer(),
-                            BuyButton(course: course),
-                            RaisedButton(
-                              onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) =>
-                                          Pg15Materi(course?.url)
-                                  ));},
-                              child: Text("BUKA"),
-                            ),
-                          ],
-                        ),
-                      ],
+
+    List<Widget> course = [];
+    for (int i = 0; i < courseList.length; i++){
+      course.add(new Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                  Pg9ADetail(courseList[i]))) ;
+            },
+            child: Card(
+              elevation: 10,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(20))
+              ),
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.ac_unit,
+                      color: Colors.black,
+                      size: 50,
                     ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Flexible(
+                                  child: Text(
+                                    courseList[i].title,
+                                    style: bigfont,
+                                  )),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                courseList[i].oleh,
+                                style: mediumfont,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                courseList[i].kategori,
+                                style: kategorifont,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 5,
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                courseList[i].harga,
+                                style: hargafont,
+                              ),
+                              Spacer(),
+                              //BuyButton(course: course),
+                              RaisedButton(
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) =>
+                                          Pg15Materi(courseList[i].url)
+                                  ));},
+                                child: Text("BUKA"),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
+      )
+      );
+    }
+    return course;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Trampill"),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  loadDone = readurl(defUrlMasterMooc);
+                  setState(() { });
+                },
+                child: Icon(
+                  Icons.refresh,
+                  size: 26.0,
+                ),
+              )
+          ),
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.search,
+                  size: 26.0,
+                ),
+              )
+          ),
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.settings,
+                  size: 26.0,
+                ),
+              )
+          ),
+        ],
+      ),
+      body: ListView(children: courseCard(),),
+      bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text("Beranda"),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              title: Text("Kelas saya"),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.payment),
+              title: Text("Pembayaran")
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.more_horiz),
+              title: Text("Lainnya"),
+            ),
+          ],
+      currentIndex:  _selectedIndex,
+      selectedItemColor: Colors.amber[800],
+      onTap: _onItemTapped,
       ),
     );
   }
 }
 
-class BuyButton extends StatelessWidget {
-  const BuyButton({
-    Key key,
-    @required this.course,
-  }) : super(key: key);
 
-  final MasterMooc course;
-
-  @override
-  Widget build(BuildContext context) {
-    if (course.harga.toString().trim() != "Free" &&
-        course.harga.toString().trim() != "Gratis")
-    { return RaisedButton(
-      onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)
-        => Pg7KelasSaya(course?.url))) ;
-     },
-      disabledColor: Colors.grey,
-      color: Colors.red,
-      child: Text("BELI",),
-    elevation: 10,);}
-    else {
-      return SizedBox();
-    }
-
-  }
-}
