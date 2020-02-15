@@ -20,43 +20,45 @@ class Pg3Lainnya extends StatelessWidget {
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
 
-                RaisedButton(
-                  onPressed: () {Navigator.pushNamed(context, '/pg22_setting');},
-                  child: Text("SETTING APLIKASI"),
-                ),
-                RaisedButton(
-                  onPressed: () {},
-                  child: Text("AKUN SAYA"),
-                ),
-                RaisedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/pg10_tentang');
-                  },
-                  child: Text("TENTANG KAMI"),
-                ),
-                RaisedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/pg11_hubungikami');
-                  },
-                  child: Text("HUBUNGI KAMI"),
-                ),
+                  RaisedButton(
+                    onPressed: () {Navigator.pushNamed(context, '/pg22_setting');},
+                    child: Text("SETTING APLIKASI"),
+                  ),
+                  RaisedButton(
+                    onPressed: () {},
+                    child: Text("AKUN SAYA"),
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/pg10_tentang');
+                    },
+                    child: Text("TENTANG KAMI"),
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/pg11_hubungikami');
+                    },
+                    child: Text("HUBUNGI KAMI"),
+                  ),
 
-                RaisedButton(onPressed: () { Navigator.pushNamed(context, '/pg12_cara');}, child: Text("CARA MEMBUAT KELAS")),
-                RaisedButton(onPressed: () {Navigator.pushNamed(context, '/pg13_privasi');}, child: Text("PRIVASI")),
-                RaisedButton(onPressed: (){Navigator.pushNamed(context, '/pg14_syaratketentuan');}, child: Text("SYARAT & KETENTUAN"),),
-                RaisedButton(
-                  onPressed: () { Navigator.pushNamed(context, '/pg23_tentangapp');},
-                  child: Text("TENTANG APP INI"),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                RaisedButton(onPressed: () {}, child: Text("LOGIN")),
-              ],
+                  RaisedButton(onPressed: () { Navigator.pushNamed(context, '/pg12_cara');}, child: Text("CARA MEMBUAT KELAS")),
+                  RaisedButton(onPressed: () {Navigator.pushNamed(context, '/pg13_privasi');}, child: Text("PRIVASI")),
+                  RaisedButton(onPressed: (){Navigator.pushNamed(context, '/pg14_syaratketentuan');}, child: Text("SYARAT & KETENTUAN"),),
+                  RaisedButton(
+                    onPressed: () { Navigator.pushNamed(context, '/pg23_tentangapp');},
+                    child: Text("TENTANG APP INI"),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  RaisedButton(onPressed: () {}, child: Text("LOGIN")),
+                ],
+              ),
             ),
           ),
         ),
