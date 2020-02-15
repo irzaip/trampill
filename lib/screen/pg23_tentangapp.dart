@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
-
+import 'package:device_id/device_id.dart';
 
 class Pg23TentangApp extends StatefulWidget {
   @override
@@ -8,7 +8,7 @@ class Pg23TentangApp extends StatefulWidget {
 }
 
 class _Pg23TentangAppState extends State<Pg23TentangApp> {
-
+  String device_Id = "";
 
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
@@ -21,8 +21,12 @@ class _Pg23TentangAppState extends State<Pg23TentangApp> {
   void initState() {
     super.initState();
     _initPackageInfo();
+    getDevice();
   }
 
+  Future<void> getDevice() async {
+    device_Id = await DeviceId.getID;
+  }
   Future<void> _initPackageInfo() async {
     final PackageInfo info = await PackageInfo.fromPlatform();
     setState(() {
@@ -44,6 +48,7 @@ class _Pg23TentangAppState extends State<Pg23TentangApp> {
       appBar: AppBar(title: Text("Tentang App ini")),
       body: Column(
         children: <Widget>[
+          _infoTile("Device id", device_Id),
           _infoTile('App name', _packageInfo.appName),
           _infoTile('Package name', _packageInfo.packageName),
           _infoTile('App version', _packageInfo.version),

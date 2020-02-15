@@ -12,11 +12,12 @@ import 'package:trampill/services/Course.dart';
 import 'screen/pg3_lainnya.dart';
 import 'package:trampill/screen/pg3_lainnya.dart';
 import 'screen/pg21_main_course.dart';
+import 'screen/pg8_pembelian.dart';
 import 'screen/pg10_tentang.dart';
 import 'screen/pg15_materi.dart';
 import 'screen/pg11_hubungikami.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => MyStatefulWidget(),
         '/pg3_lainnya': (context) => Pg3Lainnya(),
+        '/pg8_pembelian': (context) => Pg8Pembelian(),
         '/pg10_tentang': (context) => Pg10Tentang(),
         '/pg11_hubungikami': (context) => Pg11HubungiKami(),
         '/pg12_cara': (context) => Pg12Cara(),
@@ -55,7 +57,7 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   var defUrlMasterMooc =
-      "https://raw.githubusercontent.com/irzaip/TrampillMasterMooc/master/Master.md";
+      "";
   List<MasterMooc> courseList = new List<MasterMooc>();
   Future<int> loadDone;
 
@@ -66,6 +68,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   Future<int> readUrl(String url) async {
+    String mm = "https://raw.githubusercontent.com/irzaip/TrampillMasterMooc/master/Master.md";
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    defUrlMasterMooc = pref.getString("MasterMooc") ?? mm;
+
+    if (defUrlMasterMooc == "") {
+       defUrlMasterMooc = mm;
+    }
+
     courseList.clear();
     //var client = http.Client();
     http.Response response = await http.get(url);
@@ -119,6 +129,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       print("MOOC MASTER COURSE READ - ERROR!");
       setState(() {});
     }
+    return 1;
   }
 
 
@@ -131,7 +142,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Pg7KelasSaya("Masih dalam Konstruksi"))) ;
       }
       if (_selectedIndex == 2) {
-        print("Hello");
+        Navigator.pushNamed(context, '/pg8_pembelian');
       }
       if (_selectedIndex == 3) {
         Navigator.pushNamed(context, '/pg3_lainnya');
@@ -291,7 +302,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.payment),
-              title: Text("Pembayaran")
+              title: Text("Pembelian")
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.more_horiz),

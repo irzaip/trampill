@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class Pg3Lainnya extends StatelessWidget {
   @override
@@ -17,11 +18,12 @@ class Pg3Lainnya extends StatelessWidget {
           title: Text("Lainnya ..."),
         ),
         backgroundColor: Colors.indigo,
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SafeArea(
+        body: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
 

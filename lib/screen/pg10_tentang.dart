@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Pg10Tentang extends StatelessWidget {
   final String _markdownData = """
@@ -14,6 +15,7 @@ bergabunglah di komunitas kami di:
 
 """;
 
+  String url = 'https://docs.google.com/forms/d/e/1FAIpQLSeqj1oG-nU2Vp1gsOjf9BTFZ1LXU_K2Uz0IoRTv4ckeGonIbw/viewform';
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +30,33 @@ bergabunglah di komunitas kami di:
       body: Container(
         color: Colors.indigo,
         child: SafeArea(
-          child: Markdown(
-            controller: controller,
-            selectable: true,
-            data: _markdownData,
-            imageDirectory: 'https://raw.githubusercontent.com',
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 300,
+                 child: Markdown(
+                  controller: controller,
+                  selectable: true,
+                  data: _markdownData,
+                  imageDirectory: 'https://raw.githubusercontent.com',
+                ),
+              ),
+              RaisedButton(
+                onPressed: () {_launchURL();},
+                  child: Text("KLIK DISINI UNTUK BERGABUNG")),
+            ],
           ),
         ),
       ),
     );
+  }
+}
+
+_launchURL() async {
+  const url = 'https://docs.google.com/forms/d/e/1FAIpQLSeqj1oG-nU2Vp1gsOjf9BTFZ1LXU_K2Uz0IoRTv4ckeGonIbw/viewform';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }

@@ -28,6 +28,28 @@ class _Pg12CaraState extends State<Pg12Cara> {
   buat teks file serupa, ingat untuk menaruh nama asli web/user dari
   pemilik konten asli dan jangan mengakui konten orang lain sebagai milik sendiri.
 
+  
+  Buat text file yang meng-urut-kan konten anda seperti playlist.
+  
+  # menyusun Konten milik orang lain.
+  
+  buat teks file serupa, ingat untuk menaruh nama asli web/user dari
+  pemilik konten asli dan jangan mengakui konten orang lain sebagai milik sendiri.
+  
+  Buat text file yang meng-urut-kan konten anda seperti playlist.
+  
+  # menyusun Konten milik orang lain.
+  
+  buat teks file serupa, ingat untuk menaruh nama asli web/user dari
+  pemilik konten asli dan jangan mengakui konten orang lain sebagai milik sendiri.
+  
+  Buat text file yang meng-urut-kan konten anda seperti playlist.
+  
+  # menyusun Konten milik orang lain.
+  
+  buat teks file serupa, ingat untuk menaruh nama asli web/user dari
+  pemilik konten asli dan jangan mengakui konten orang lain sebagai milik sendiri.
+
   """;
 
   @override
@@ -40,30 +62,36 @@ class _Pg12CaraState extends State<Pg12Cara> {
     return Scaffold(
       backgroundColor: Colors.indigo,
       appBar: AppBar(title: Text("Cara membuat kelas")),
-      body: Container(
-        color: Colors.indigo,
-        child: Column(
-          children: <Widget>[
-            Flexible(flex: 2,
-              child: Markdown(
-                controller: controller,
-                selectable: false,
-                data: content,
-                imageDirectory: 'https://raw.githubusercontent.com',
-              ),
+      body: SafeArea(
+        child: ListView(
+          children: <Widget>[ Container(
+            color: Colors.indigo,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: GestureDetector(
+                    onTap: (){
+                      playYoutubeVideo(isi);
+                    },
+                    child: Image.network(ytImgUrl),
+                  ),
+                ),
+                RaisedButton(onPressed: (){ playYoutubeVideo(isi);},
+                child: Text("Buka Video Cara mengisi konten"),),
+                Container(
+                  child: Markdown(
+                    controller: controller,
+                    selectable: false,
+                    data: content,
+                    imageDirectory: 'https://raw.githubusercontent.com',
+                    shrinkWrap: true,
+                  ),
+                ),
+              ],
             ),
-            GestureDetector(
-              onTap: (){
-                playYoutubeVideo(isi);
-              },
-              child: Flexible(flex: 1,
-              child: Image.network(ytImgUrl),),
-            ),
-            RaisedButton(onPressed: (){ playYoutubeVideo(isi);},
-            child: Text("Buka Video Cara mengisi konten"),)
-
-          ],
+          ),],
         ),
+
       )
     );
   }
