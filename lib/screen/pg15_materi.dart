@@ -53,32 +53,33 @@ class _Pg15MateriState extends State<Pg15Materi> {
     var content = response.body;
 
     if (response.statusCode == 200) {
+      LineSplitter ls = new LineSplitter();
+      List<String> coursecontent = ls.convert(content);
+      List<int> headindx = [];
 
-        LineSplitter ls = new LineSplitter();
-        List<String> coursecontent = ls.convert(content);
-        List<int> headindx = [];
+      //coursecontent.removeWhere((element) => element.toString() == "");
 
-        //coursecontent.removeWhere((element) => element.toString() == "");
-
-        coursecontent.asMap().forEach((index, element) {
-          if (element.startsWith("# ")) {
-            //print(index);
-            headindx.add(index);
-          }
-        });
-
-        for (int i = 0; i < headindx.length - 1; i++) {
-          List<String> cleaned = coursecontent.getRange(headindx[i],headindx[i+1]).toList();
-
-          contentToDisplay.add(new CourseContent(coursecontent[headindx[i]],
-              cleaned));
+      coursecontent.asMap().forEach((index, element) {
+        if (element.startsWith("# ")) {
+          //print(index);
+          headindx.add(index);
         }
+      });
 
-        return 1;
+      for (int i = 0; i < headindx.length - 1; i++) {
+        List<String> cleaned =
+            coursecontent.getRange(headindx[i], headindx[i + 1]).toList();
+
+        contentToDisplay
+            .add(new CourseContent(coursecontent[headindx[i]], cleaned));
+      }
+
+      return 1;
     } else {
-    List<String> cont = ["ERROR", "ERROR"];
-    contentToDisplay.add(new CourseContent("ERROR LOADING", cont));
-    return 1; }
+      List<String> cont = ["ERROR", "ERROR"];
+      contentToDisplay.add(new CourseContent("ERROR LOADING", cont));
+      return 1;
+    }
   }
 
   buildContent(List<CourseContent> coursecontent, int index) {
@@ -92,80 +93,160 @@ class _Pg15MateriState extends State<Pg15Materi> {
           contentToDisplay[currentIndexContent].coursecontent[i].toString();
       if (isi.contains("youtube")) {
         //manipulasi url dalam kurung
-        isi = isi.replaceAll("(", "").replaceAll(")", "");
-        isi = isi.replaceFirst(" ", "#");
-        var isiLengkap = isi.split("#");
-        var ket = isiLengkap[1].replaceAll("\"", "");
-        isi = isiLengkap[0];
+        youtubeCard(isi, content);
+      } else if (isi.startsWith("## ")) {
+        header2Card(content, currentIndexContent, i);
+      } else if (isi.contains("https://")) {
+        urlCard(content, currentIndexContent, i);
+      } else if (isi.isNotEmpty) {
+        textCard(content, currentIndexContent, i);
+      } else if (isi.isEmpty) {}
+    }
+    return content;
+  }
 
-        Uri ytUrl = Uri.parse(isi);
-        String videoID = ytUrl.queryParameters['v'].toString();
-        String ytImgUrl = "http://img.youtube.com/vi/" + videoID + "/0.jpg";
 
-        content.add(
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: new Container(
-              color: Colors.white,
-              child: Center(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Image.network(ytImgUrl),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Text(
-                        ket,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    RaisedButton(
-                      onPressed: () {
-                        playYoutubeVideo(isi);
-                      },
-                      child: Text("Buka"),
-                    )
-                  ],
+  List<Widget> textCard(List<Widget> content, int currentIndexContent, int i) {
+    content.add(
+      Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: new Container(
+          color: Colors.white,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                contentToDisplay[currentIndexContent]
+                    .coursecontent[i]
+                    .replaceAll("# ", ""),
+                style: TextStyle(
+                  fontSize: 26,
+                  color: Colors.black,
                 ),
               ),
             ),
           ),
-        );
-      } else {
-        content.add(
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: new Container(
-              color: Colors.white,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    contentToDisplay[currentIndexContent].coursecontent[i],
-                    style: TextStyle(
-                      fontSize: 26,
-                      color: Colors.black,
-                    ),
+        ),
+      ),
+    );
+    return content;
+  }
+
+  List<Widget> header2Card(
+      List<Widget> content, int currentIndexContent, int i) {
+    content.add(
+      Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: new Container(
+          color: Colors.white,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                contentToDisplay[currentIndexContent]
+                    .coursecontent[i]
+                    .toString()
+                    .replaceAll("## ", ""),
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    return content;
+  }
+
+  List<Widget> urlCard(List<Widget> content, int currentIndexContent, int i) {
+    var url = contentToDisplay[currentIndexContent]
+        .coursecontent[i]
+        .replaceAll("(", "")
+        .replaceAll(")", "");
+    content.add(
+      Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: new Container(
+          color: Colors.white,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: GestureDetector(
+                onTap: null,
+                child: SelectableText(
+                  url,
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.blueGrey,
                   ),
                 ),
               ),
             ),
           ),
-        );
-      }
-    }
-    content.removeLast();
+        ),
+      ),
+    );
+    return content;
+  }
+
+  List<Widget> youtubeCard(String isi, List<Widget> content) {
+    //manipulasi url dalam kurung
+    isi = isi.replaceAll("(", "").replaceAll(")", "");
+    isi = isi.replaceFirst(" ", "#");
+    var isiLengkap = isi.split("#");
+    var ket = isiLengkap[1].replaceAll("\"", "");
+    isi = isiLengkap[0];
+
+    Uri ytUrl = Uri.parse(isi);
+    String videoID = ytUrl.queryParameters['v'].toString();
+    String ytImgUrl = "http://img.youtube.com/vi/" + videoID + "/0.jpg";
+
+    if (videoID != null) {
+      content.add(
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: new Container(
+            color: Colors.white,
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Image.network(ytImgUrl),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      ket,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      playYoutubeVideo(isi);
+                    },
+                    child: Text("Buka"),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ); 
+    } else { content.add(SizedBox());}
     return content;
   }
 
@@ -200,7 +281,7 @@ class _Pg15MateriState extends State<Pg15Materi> {
           });
         },
         color: Colors.blue,
-        child: Text(contentToDisplay[i].title.toString()),
+        child: Text(contentToDisplay[i].title.toString().replaceFirst("# ", "")),
       ));
     }
     return _tOCcontent;

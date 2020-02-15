@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:trampill/screen/pg11_hubungikami.dart';
+import 'package:trampill/screen/pg12_cara.dart';
+import 'package:trampill/screen/pg13_privasi.dart';
+import 'package:trampill/screen/pg14_syaratketentuan.dart';
+import 'package:trampill/screen/pg22_setting.dart';
+import 'package:trampill/screen/pg23_tentangapp.dart';
+import 'package:trampill/screen/pg24_feedback.dart';
 import 'package:trampill/screen/pg7_kelassaya.dart';
 import 'package:trampill/screen/pg9ADetail.dart';
 import 'package:trampill/services/Course.dart';
-import 'screen/pg3_Lainnya.dart';
-import 'package:trampill/screen/pg3_Lainnya.dart';
+import 'screen/pg3_lainnya.dart';
+import 'package:trampill/screen/pg3_lainnya.dart';
 import 'screen/pg21_main_course.dart';
 import 'screen/pg10_tentang.dart';
 import 'screen/pg15_materi.dart';
@@ -29,7 +35,13 @@ class MyApp extends StatelessWidget {
         '/pg3_lainnya': (context) => Pg3Lainnya(),
         '/pg10_tentang': (context) => Pg10Tentang(),
         '/pg11_hubungikami': (context) => Pg11HubungiKami(),
+        '/pg12_cara': (context) => Pg12Cara(),
+        '/pg13_privasi': (context) => Pg13Privasi(),
+        '/pg14_syaratketentuan': (context) => Pg14SyaratKetentuan(),
         '/pg21_main_course': (context) => InputPage(),
+        '/pg22_setting': (context) => Pg22Setting(),
+        '/pg23_tentangapp': (context) => Pg23TentangApp(),
+        '/pg24_feedback': (context) => Pg24Feedback(),
       }
     );
   }
@@ -49,17 +61,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    loadDone = readurl(defUrlMasterMooc);
+    loadDone = readUrl(defUrlMasterMooc);
   }
 
-  Future<int> readurl(String url) async {
+  Future<int> readUrl(String url) async {
     courseList.clear();
     //var client = http.Client();
     http.Response response = await http.get(url);
     print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    //print('Response body: ${response.body}');
     var mooccontent = response.body;
 
     if (response.statusCode == 200) {
@@ -71,9 +82,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
       // check apakah mooc mempunyai URL dan judul 3 lapis?
       if (urls.length * 6 == titles.length && urls.length != 0) {
-        // print("Mooc OK!.");
-        // print(urls.length);
-
         var elm = 0; // start element 0
         for (var i = 0; i < urls.length; i = i + 1) {
           var judul = titles.elementAt(elm).group(2).toString();
@@ -85,7 +93,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           var url = urls.elementAt(i).group(1).toString();
 
           // tambahkan sejumlah field yang tersedia !
-          elm=elm+6;
+          elm = elm + 6;
           courseList.add(new MasterMooc(
               judul,
               oleh,
@@ -97,12 +105,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         }
         setState(() {});
         return 1;
-      } else {
-        print("MOOC MASTER COURSE READ - ERROR!");
-        return 0;
       }
+      return 1;
+    } else {
+      courseList.add(new MasterMooc(
+          "ERROR LOADING",
+          "ERROR LOADING",
+          "ERROR LOADING",
+          "ERROR LOADING",
+          "ERROR LOADING",
+          "ERROR LOADING",
+          "ERROR LOADING"));
+      print("MOOC MASTER COURSE READ - ERROR!");
+      setState(() {});
     }
-    return 1;
   }
 
 
@@ -112,7 +128,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
       if (_selectedIndex == 1) {
         Navigator.push(context, MaterialPageRoute(builder: (context) =>
-            Pg7KelasSaya("Ini dia course"))) ;
+            Pg7KelasSaya("Masih dalam Konstruksi"))) ;
       }
       if (_selectedIndex == 2) {
         print("Hello");
@@ -241,7 +257,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  loadDone = readurl(defUrlMasterMooc);
+                  loadDone = readUrl(defUrlMasterMooc);
                   setState(() { });
                 },
                 child: Icon(
@@ -256,16 +272,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 onTap: () {},
                 child: Icon(
                   Icons.search,
-                  size: 26.0,
-                ),
-              )
-          ),
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.settings,
                   size: 26.0,
                 ),
               )

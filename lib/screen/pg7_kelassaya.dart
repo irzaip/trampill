@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-
+import 'package:package_info/package_info.dart';
 
 class Pg7KelasSaya extends StatefulWidget {
   final String contentUrl;
@@ -12,17 +11,36 @@ class Pg7KelasSaya extends StatefulWidget {
 
 class _Pg7KelasSayaState extends State<Pg7KelasSaya> {
   String contentUrl = "";
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+  );
 
-  _Pg7KelasSayaState(String ttl);
+  _Pg7KelasSayaState(this.contentUrl);
 
-@override
+  @override
   void initState() {
     contentUrl = widget.contentUrl;
-    // TODO: implement initState
     super.initState();
+    _initPackageInfo();
   }
 
-  String mystring = "This is my string";
+  Future<void> _initPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
+
+  Widget _infoTile(String title, String subtitle) {
+    return ListTile(
+      title: Text(title),
+      subtitle: Text(subtitle ?? 'Not set'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,18 +53,17 @@ class _Pg7KelasSayaState extends State<Pg7KelasSaya> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(
-              "Maaf masih dalam konstruksi.",
+              contentUrl.toString(),
               style: TextStyle(fontSize: 20),
             ),
             RaisedButton(
-              onPressed: () { },
+              onPressed: () {},
               child: Text("DEBUG"),
             ),
-            Text(
-              mystring,
-              style: TextStyle(fontSize: 20),
-            ),
-            Text(contentUrl),
+            _infoTile('App name', _packageInfo.appName),
+            _infoTile('Package name', _packageInfo.packageName),
+            _infoTile('App version', _packageInfo.version),
+            _infoTile('Build number', _packageInfo.buildNumber),
           ],
         ),
       ),
