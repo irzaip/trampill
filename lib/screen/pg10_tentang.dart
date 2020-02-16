@@ -30,21 +30,28 @@ bergabunglah di komunitas kami di:
       body: Container(
         color: Colors.indigo,
         child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 300,
-                 child: Markdown(
-                  controller: controller,
-                  selectable: true,
-                  data: _markdownData,
-                  imageDirectory: 'https://raw.githubusercontent.com',
+          child: ListView(
+            children: <Widget>[Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Image.asset('images/INDOSOAI_sml.png', fit: BoxFit.fitWidth,
                 ),
-              ),
-              RaisedButton(
-                onPressed: () {_launchURL();},
-                  child: Text("KLIK DISINI UNTUK BERGABUNG")),
-            ],
+                RaisedButton(
+                    onPressed: () {_launchURL();},
+                    child: Text("KLIK DISINI UNTUK BERGABUNG")),
+                Container(
+                  height: 300,
+                   child: Markdown(
+                    controller: controller,
+                    selectable: true,
+                    data: _markdownData,
+                    imageDirectory: 'https://raw.githubusercontent.com',
+                  ),
+                ),
+
+              ],
+            ),
+    ],
           ),
         ),
       ),

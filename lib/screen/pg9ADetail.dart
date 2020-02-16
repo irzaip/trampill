@@ -40,6 +40,7 @@ class _Pg9ADetailState extends State<Pg9ADetail> {
               Text("DIBUAT :", style: fieldFont,),
               Text(widget.mmooc.oleh, style: mediumfont,),
               SizedBox(height: 14,),
+              Text("KATEGORI :", style: fieldFont,),
               Text(widget.mmooc.kategori, style: kategorifont,),
               SizedBox(height: 14,),
               SizedBox(height: 14,),
@@ -52,6 +53,10 @@ class _Pg9ADetailState extends State<Pg9ADetail> {
               SizedBox(height: 14,),
               Text("HARGA :", style: fieldFont,),
               Text(widget.mmooc.harga, style: hargafont,),
+              SizedBox(height: 14,),
+              Text("URL:", style: fieldFont,),
+              Text(widget.mmooc.url, style: mediumfont,),
+
             ],
           ),
         ),

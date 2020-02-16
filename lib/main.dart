@@ -63,22 +63,23 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   void initState() {
+    readUrl();
     super.initState();
-    loadDone = readUrl(defUrlMasterMooc);
+
   }
 
-  Future<int> readUrl(String url) async {
+  Future<void> readUrl() async {
     String mm = "https://raw.githubusercontent.com/irzaip/TrampillMasterMooc/master/Master.md";
     SharedPreferences pref = await SharedPreferences.getInstance();
     defUrlMasterMooc = pref.getString("MasterMooc") ?? mm;
 
     if (defUrlMasterMooc == "") {
-       defUrlMasterMooc = mm;
+      defUrlMasterMooc = mm;
     }
 
     courseList.clear();
     //var client = http.Client();
-    http.Response response = await http.get(url);
+    http.Response response = await http.get(defUrlMasterMooc);
     print('Response status: ${response.statusCode}');
     //print('Response body: ${response.body}');
     var mooccontent = response.body;
@@ -113,10 +114,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               rating,
               url));
         }
-        setState(() {});
-        return 1;
       }
-      return 1;
     } else {
       courseList.add(new MasterMooc(
           "ERROR LOADING",
@@ -127,9 +125,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           "ERROR LOADING",
           "ERROR LOADING"));
       print("MOOC MASTER COURSE READ - ERROR!");
-      setState(() {});
     }
-    return 1;
+    setState(() { });
   }
 
 
@@ -152,13 +149,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   List<Widget> courseCard() {
     TextStyle bigfont = TextStyle(
-      fontSize: 20,
+      fontSize: 18,
       color: Colors.black,
       fontWeight: FontWeight.bold,
     );
-    TextStyle mediumfont = TextStyle(fontSize: 18, color: Colors.black);
+    TextStyle mediumfont = TextStyle(fontSize: 14, color: Colors.black);
     //TextStyle deskripsifont = TextStyle(fontSize: 16, color: Colors.black);
-    TextStyle kategorifont = TextStyle(fontSize: 14, color: Colors.blueGrey);
+    TextStyle kategorifont = TextStyle(fontSize: 13, color: Colors.blueGrey);
     TextStyle hargafont = TextStyle(
         fontSize: 20, color: Colors.redAccent, fontWeight: FontWeight.w700);
 
@@ -268,7 +265,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  loadDone = readUrl(defUrlMasterMooc);
+                  readUrl();
                   setState(() { });
                 },
                 child: Icon(

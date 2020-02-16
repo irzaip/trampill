@@ -7,12 +7,12 @@ class Pg11HubungiKami extends StatelessWidget {
 
   final String myText = """
   
-# HUBUNGI KAMI.
+# Pengembang.
+### irzaip@gmail.com - Irza Pulungan
+### asman13300045@gmail.com - M. Asman
+### erisriso@gmail.com - Eris Riso
+### alternative.xen@gmail.com - Riska Abdullah
 
-### irzaip@gmail.com
-### alternative.xen@gmail.com
-### erisriso@gmail.com
-### asman13300045@gmail.com
   
   """;
   @override
