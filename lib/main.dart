@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:trampill/screen/pg11_hubungikami.dart';
 import 'package:trampill/screen/pg12_cara.dart';
 import 'package:trampill/screen/pg13_privasi.dart';
@@ -18,6 +19,9 @@ import 'screen/pg15_materi.dart';
 import 'screen/pg11_hubungikami.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -60,6 +64,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       "";
   List<MasterMooc> courseList = new List<MasterMooc>();
   Future<int> loadDone;
+
+
+  List<String> imgList = [
+    'https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+    'https://cdn.wallpaperhub.app/cloudcache/1/b/5/8/e/f/1b58ef6e3d36a42e01992accf5c52d6eea244353.jpg',
+    'https://c4.wallpaperflare.com/wallpaper/246/739/689/digital-digital-art-artwork-illustration-abstract-hd-wallpaper-thumb.jpg',
+  ];
 
   @override
   void initState() {
@@ -160,6 +172,40 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         fontSize: 20, color: Colors.redAccent, fontWeight: FontWeight.w700);
 
     List<Widget> course = [];
+
+    course.add(new Container(
+        height: 250,
+        color: Colors.grey,
+        child: PhotoViewGallery.builder(
+          scrollPhysics: const BouncingScrollPhysics(),
+          builder: (BuildContext context, int index) {
+            return PhotoViewGalleryPageOptions(
+              imageProvider: NetworkImage(imgList[index]),
+              //initialScale: PhotoViewComputedScale.contained * 0.8,
+              //heroAttributes: HeroAttributes(tag: galleryItems[index].id),
+              heroAttributes: PhotoViewHeroAttributes(tag: imgList[index]),
+            );
+          },
+          itemCount: imgList.length,
+          reverse: false,
+          loadingBuilder: (context, event) => Center(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              width: 20.0,
+              height: 20.0,
+              child: CircularProgressIndicator(
+                value: event == null
+                    ? 0
+                    : event.cumulativeBytesLoaded / event.expectedTotalBytes,
+              ),
+            ),
+          ),
+          backgroundDecoration: BoxDecoration(color: Colors.grey, ),
+          //pageController: widget.pageController,
+          //onPageChanged: onPageChanged,
+        )
+    ));
+
     for (int i = 0; i < courseList.length; i++){
       course.add(new Container(
         child: Padding(
